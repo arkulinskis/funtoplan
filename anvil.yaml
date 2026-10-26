@@ -1,5 +1,212 @@
 allow_embedding: false
 db_schema:
+  families:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: name
+      type: string
+    - admin_ui: {order: 1, width: 200}
+      name: join_code
+      type: string
+    - admin_ui: {order: 2, width: 200}
+      name: created
+      type: datetime
+    - admin_ui: {order: 3, width: 200}
+      name: version
+      type: number
+    - admin_ui: {order: 4, width: 200}
+      name: next_seq
+      type: number
+    - admin_ui: {order: 5, width: 200}
+      name: weekly_goal
+      type: number
+    server: full
+    title: Families
+  members:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: family
+      target: families
+      type: link_single
+    - admin_ui: {order: 1, width: 200}
+      name: user
+      target: users
+      type: link_single
+    - admin_ui: {order: 2, width: 200}
+      name: display_name
+      type: string
+    - admin_ui: {order: 3, width: 200}
+      name: avatar
+      type: string
+    - admin_ui: {order: 4, width: 200}
+      name: color
+      type: string
+    - admin_ui: {order: 5, width: 200}
+      name: role
+      type: string
+    - admin_ui: {order: 6, width: 200}
+      name: points
+      type: number
+    - admin_ui: {order: 7, width: 200}
+      name: active
+      type: bool
+    - admin_ui: {order: 8, width: 200}
+      name: joined
+      type: datetime
+    server: full
+    title: Members
+  items:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: family
+      target: families
+      type: link_single
+    - admin_ui: {order: 1, width: 200}
+      name: seq
+      type: number
+    - admin_ui: {order: 2, width: 200}
+      name: kind
+      type: string
+    - admin_ui: {order: 3, width: 200}
+      name: title
+      type: string
+    - admin_ui: {order: 4, width: 200}
+      name: notes
+      type: string
+    - admin_ui: {order: 5, width: 200}
+      name: status
+      type: string
+    - admin_ui: {order: 6, width: 200}
+      name: assignee
+      target: members
+      type: link_single
+    - admin_ui: {order: 7, width: 200}
+      name: created_by
+      target: members
+      type: link_single
+    - admin_ui: {order: 8, width: 200}
+      name: created
+      type: datetime
+    - admin_ui: {order: 9, width: 200}
+      name: updated
+      type: datetime
+    - admin_ui: {order: 10, width: 200}
+      name: due_date
+      type: date
+    - admin_ui: {order: 11, width: 200}
+      name: event_at
+      type: datetime
+    - admin_ui: {order: 12, width: 200}
+      name: location
+      type: string
+    - admin_ui: {order: 13, width: 200}
+      name: link
+      type: string
+    - admin_ui: {order: 14, width: 200}
+      name: priority
+      type: string
+    - admin_ui: {order: 15, width: 200}
+      name: points
+      type: number
+    - admin_ui: {order: 16, width: 200}
+      name: recurrence
+      type: string
+    - admin_ui: {order: 17, width: 200}
+      name: rotate
+      type: bool
+    - admin_ui: {order: 18, width: 200}
+      name: requires_approval
+      type: bool
+    - admin_ui: {order: 19, width: 200}
+      name: series
+      type: string
+    - admin_ui: {order: 20, width: 200}
+      name: occurrence
+      type: number
+    - admin_ui: {order: 21, width: 200}
+      name: acks
+      type: simpleObject
+    - admin_ui: {order: 22, width: 200}
+      name: comment_count
+      type: number
+    - admin_ui: {order: 23, width: 200}
+      name: points_awarded
+      type: number
+    - admin_ui: {order: 24, width: 200}
+      name: points_to
+      target: members
+      type: link_single
+    - admin_ui: {order: 25, width: 200}
+      name: spawned_next
+      type: bool
+    - admin_ui: {order: 26, width: 200}
+      name: completed_by
+      target: members
+      type: link_single
+    - admin_ui: {order: 27, width: 200}
+      name: completed_at
+      type: datetime
+    - admin_ui: {order: 28, width: 200}
+      name: approved_by
+      target: members
+      type: link_single
+    server: full
+    title: Items
+  messages:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: family
+      target: families
+      type: link_single
+    - admin_ui: {order: 1, width: 200}
+      name: author
+      target: members
+      type: link_single
+    - admin_ui: {order: 2, width: 200}
+      name: kind
+      type: string
+    - admin_ui: {order: 3, width: 200}
+      name: text
+      type: string
+    - admin_ui: {order: 4, width: 200}
+      name: item
+      target: items
+      type: link_single
+    - admin_ui: {order: 5, width: 200}
+      name: created
+      type: datetime
+    server: full
+    title: Messages
+  points_log:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: family
+      target: families
+      type: link_single
+    - admin_ui: {order: 1, width: 200}
+      name: member
+      target: members
+      type: link_single
+    - admin_ui: {order: 2, width: 200}
+      name: delta
+      type: number
+    - admin_ui: {order: 3, width: 200}
+      name: reason
+      type: string
+    - admin_ui: {order: 4, width: 200}
+      name: item
+      target: items
+      type: link_single
+    - admin_ui: {order: 5, width: 200}
+      name: created
+      type: datetime
+    server: full
+    title: Points Log
   users:
     client: none
     columns:
@@ -34,8 +241,19 @@ db_schema:
     indexes: []
     server: full
     title: Users
-metadata: {title: Fun To Plan}
+metadata: {description: 'A shared family board: tasks, events, wants, chat and brownie points.', title: Fun To Plan}
 name: Fun To Plan
+native_deps:
+  head_html: |
+    <meta name="theme-color" content="#dce9f5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="_/theme/ftp.css?v=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <script src="_/theme/ftp.js?v=1"></script>
+    <style>html, body { background: #dce9f5; margin: 0; }</style>
 package_name: Fun_To_Plan
 runtime_options:
   client_version: '3'

@@ -1,88 +1,40 @@
-# About This [Anvil](https://anvil.works/?utm_source=github:app_README) App
+# Fun To Plan
 
-### Build web apps with nothing but Python.
+A shared family board for 2–4 people, built on [Anvil](https://anvil.works). Think of it as a small Jira with one epic, **FAMILY**: tasks, events and wants all go on one board. Everyone can add cards, acknowledge them, comment and chat. Doing tasks earns **brownie points**.
 
-The app in this repository is built with [Anvil](https://anvil.works?utm_source=github:app_README), the framework for building web apps with nothing but Python. You can clone this app into your own Anvil account to use and modify.
+Works on phones (bottom tab bar, bottom sheets) and on desktop (side rail, 4-column board). The look is neumorphic: baby blue, soft grays and inky blacks, with an optional charcoal night mode.
 
-Below, you will find:
-- [How to open this app](#opening-this-app-in-anvil-and-getting-it-online) in Anvil and deploy it online
-- Information [about Anvil](#about-anvil)
-- And links to some handy [documentation and tutorials](#tutorials-and-documentation)
+## Features
 
-## Opening this app in Anvil and getting it online
+- **One family board.** One person creates the board and the others join by scanning its **QR code** (or typing the 6-letter code). Up to 4 people.
+- **Three card types.** Each card gets a key like `FAM-12`.
+  - **Task**: assignee (or open to anyone), due date, priority, brownie point bounty.
+  - **Event**: date, time, place, optional host. Family members tap "I'm in".
+  - **Want**: a wish for the family or one person, with an optional link. Others can "+1" it.
+- **Board.** Columns are To do → In progress → Review → Done. You can filter by type, by your own cards, or by bounties.
+- **Bounties.** Add brownie points to a task. Anyone can claim an open bounty, and the points are paid when it's done.
+- **Optional approval.** If a task needs approval, finishing it moves it to *Review*. Someone else in the family then approves it (and the points are paid) or sends it back with a note.
+- **Recurring tasks.** Tasks can repeat daily, on weekdays, weekly, every 2 weeks or monthly. The next one is created when the current one is done. Turn on **Take turns** to rotate the next one through the family.
+- **Acknowledge.** Every card shows who has seen it, who's coming, or who +1'd it.
+- **Chat.** Family chat plus an activity feed ("Mom completed FAM-7 · +10 brownie points"). Typing `FAM-12` in a message links to that card. Each card also has its own comment thread.
+- **Game elements.** Levels from Rookie to Mythic with a progress ring, a weekly family brownie goal, and a 7-day and all-time podium. A little confetti burst plays when points are earned.
+- **Reopen safety.** Reopening a finished card takes back the points it paid.
 
-### Cloning the app
+## Getting it running in Anvil
 
-Go to the [Anvil Editor](https://anvil.works/build?utm_source=github:app_README) (you might need to sign up for a free account) and click on “Clone from GitHub” (underneath the “Blank App” option):
+1. In the Anvil editor choose **Clone from GitHub** and paste this repository URL. If you already linked this repo to an app, just pull the latest `master`.
+2. Anvil creates the Data Tables from `anvil.yaml`: `families`, `members`, `items`, `messages`, `points_log`, plus `users`. If it asks, accept the schema changes.
+3. Make sure the **Users** service allows email + password sign-up. It's already configured in `anvil.yaml`.
+4. Press **Run**. To invite family on other phones, **publish** the app (Publish → share via public URL). QR codes point at whatever URL the app is opened from.
 
-<img src="https://anvil.works/docs/version-control/img/git/clone-from-github.png" alt="Clone from GitHub"/>
+## How it's built
 
-Enter the URL of this GitHub repository. If you're not yet logged in, choose "GitHub credentials" as the authentication method and click "Connect to GitHub".
+| Path | What it does |
+| --- | --- |
+| `server_code/api.py` | All business rules: membership, the 4-person cap, approvals, points ledger, recurring tasks, chat. A single callable, `ftp_api(action, payload_json)`, runs every change inside a transaction. |
+| `client_code/Form1/` | Startup form. It mounts the UI and acts as the bridge: login, sign-up and logout use Anvil Users, and everything else calls `ftp_api`. |
+| `theme/assets/ftp.js` | The interface, written in plain JavaScript with no framework: screens, board, sheets, QR rendering, polling every 8 seconds for family updates. |
+| `theme/assets/ftp.css` | The neumorphic design system (light and night). |
+| `anvil.yaml` | Services, table schema and the head HTML that loads fonts, the QR library and the assets above. |
 
-<img src="https://anvil.works/docs/version-control/img/git/clone-app-from-git.png" alt="Clone App from Git modal"/>
-
-Finally, click "Clone App".
-
-This app will then be in your Anvil account, ready for you to run it or start editing it! **Any changes you make will be automatically pushed back to this repository, if you have permission!** You might want to [make a new branch](https://anvil.works/docs/version-control?utm_source=github:app_README).
-
-### Running the app yourself:
-
-Find the **Run** button at the top-right of the Anvil editor:
-
-<img src="https://anvil.works/docs/img/run-button-new-ide.png"/>
-
-
-### Publishing the app on your own URL
-
-Now you've cloned the app, you can [deploy it on the internet with two clicks](https://anvil.works/docs/deployment/quickstart?utm_source=github:app_README)! Find the **Publish** button at the top-right of the editor:
-
-<img src="https://anvil.works/docs/deployment/img/environments/publish-button.png"/>
-
-When you click it, you will see the Publish dialog:
-
-<img src="https://anvil.works/docs/deployment/img/quickstart/empty-environments-dialog.png"/>
-
-Click **Publish This App**, and you will see that your app has been deployed at a new, public URL:
-
-<img src="https://anvil.works/docs/deployment/img/quickstart/default-public-environment.png"/>
-
-That's it - **your app is now online**. Click the link and try it!
-
-## About Anvil
-
-If you’re new to Anvil, welcome! Anvil is a platform for building full-stack web apps with nothing but Python. No need to wrestle with JS, HTML, CSS, Python, SQL and all their frameworks – just build it all in Python.
-
-<figure>
-<figcaption><h3>Learn About Anvil In 80 Seconds👇</h3></figcaption>
-<a href="https://www.youtube.com/watch?v=3V-3g1mQ5GY" target="_blank">
-<img
-  src="https://anvil-website-static.s3.eu-west-2.amazonaws.com/anvil-in-80-seconds-YouTube.png"
-  alt="Anvil In 80 Seconds"
-/>
-</a>
-</figure>
-<br><br>
-
-[![Try Anvil Free](https://anvil-website-static.s3.eu-west-2.amazonaws.com/mark-complete.png)](https://anvil.works?utm_source=github:app_README)
-
-To learn more about Anvil, visit [https://anvil.works](https://anvil.works?utm_source=github:app_README).
-
-## Tutorials and documentation
-
-### Tutorials
-
-If you are just starting out with Anvil, why not **[try the 10-minute Feedback Form tutorial](https://anvil.works/learn/tutorials/feedback-form?utm_source=github:app_README)**? It features step-by-step tutorials that will introduce you to the most important parts of Anvil.
-
-Anvil has tutorials on:
-- [Building Dashboards](https://anvil.works/learn/tutorials/data-science#dashboarding?utm_source=github:app_README)
-- [Multi-User Applications](https://anvil.works/learn/tutorials/multi-user-apps?utm_source=github:app_README)
-- [Building Web Apps with an External Database](https://anvil.works/learn/tutorials/external-database?utm_source=github:app_README)
-- [Deploying Machine Learning Models](https://anvil.works/learn/tutorials/deploy-machine-learning-model?utm_source=github:app_README)
-- [Taking Payments with Stripe](https://anvil.works/learn/tutorials/stripe?utm_source=github:app_README)
-- And [much more....](https://anvil.works/learn/tutorials?utm_source=github:app_README)
-
-### Reference Documentation
-
-The Anvil reference documentation provides comprehensive information on how to use Anvil to build web applications. You can find the documentation [here](https://anvil.works/docs/overview?utm_source=github:app_README).
-
-If you want to get to the basics as quickly as possible, each section of this documentation features a [Quick-Start Guide](https://anvil.works/docs/overview/quickstarts?utm_source=github:app_README).
+All tables are server-only (`client: none`), so a browser can only see and change its own family's board through the server rules.
