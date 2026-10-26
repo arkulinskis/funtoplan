@@ -45,7 +45,10 @@
     refresh: 'M20 11a8 8 0 0 0-14.5-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.5 4.5L20 16M20 20v-4h-4',
     sparkle: 'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z',
     gear: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z',
-    user: 'M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1'
+    user: 'M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1',
+    back: 'M15 18l-6-6 6-6',
+    arrow: 'M5 12h14M13 6l6 6-6 6',
+    device: 'M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM11 18h2'
   };
   var BROWNIE = '<svg class="brownie" viewBox="0 0 24 24" aria-hidden="true">' +
     '<rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/>' +
@@ -73,7 +76,7 @@
 
   /* ------------------------------------------------------------ state */
   var S = {
-    phase: 'boot',          // boot | auth | onboard | app
+    phase: 'boot',          // boot | landing | auth | onboard | app
     authMode: 'login',
     email: null,
     st: null,               // server state
@@ -416,12 +419,14 @@
   function goAuth() {
     stopPolling(); closeSheet(true);
     S.st = null;
-    setPhase('auth');
+    setPhase('landing');
   }
   function render() {
     app.setAttribute('data-theme', S.theme);
     if (S.phase === 'boot') {
       stage.innerHTML = '<div class="splash"><div class="big-logo"><div class="inner">' + ic('check') + '</div></div></div>';
+    } else if (S.phase === 'landing') {
+      renderLanding();
     } else if (S.phase === 'auth') {
       renderAuth();
     } else if (S.phase === 'onboard') {
@@ -449,11 +454,137 @@
     }
   }
 
+  /* ------------------------------------------------------------ landing page */
+  // What logged-out visitors see first: what the app is and how it works,
+  // before they are asked to log in or sign up.
+  var DEMO_FAM = [
+    { name: 'Mom', avatar: '🦊', color: COLORS[1] },
+    { name: 'Dad', avatar: '🐻', color: COLORS[4] },
+    { name: 'Alex', avatar: '🐼', color: COLORS[0] },
+    { name: 'Mia', avatar: '🦄', color: COLORS[2] }
+  ];
+  function demoCard(kind, key, title, meta, right, pts) {
+    return '<div class="card demo" aria-hidden="true">' +
+      '<div class="card-top">' + typeChip(kind) + '<span class="key">' + key + '</span><span class="sp"></span>' + (pts ? bp(pts) : '') + '</div>' +
+      '<div class="card-title">' + title + '</div>' +
+      '<div class="card-meta">' + meta + '<span class="sp"></span>' + right + '</div></div>';
+  }
+  function demoBoardHTML() {
+    var m = function (name, icon, extra) { return '<span class="meta">' + ic(icon) + (name || '') + '</span>' + (extra || ''); };
+    return '<div class="land-demo neu">' +
+      '<div class="land-demo-head"><div><div class="page-kicker">Family board</div><div class="b">The Rivera family</div></div><span class="sp"></span>' +
+      '<div class="stack">' + DEMO_FAM.map(function (x) { return avatar(x, 'sm'); }).join('') + '</div></div>' +
+      '<div class="list">' +
+      demoCard('task', 'FAM-12', 'Take out the recycling', m('Tue', 'clock') + m('turns', 'repeat'), avatar(DEMO_FAM[2], 'xs'), 10) +
+      demoCard('task', 'FAM-14', 'Wash the car', m('Sat', 'clock') + m('', 'shield'), '<span class="open-slot">open</span>', 25) +
+      demoCard('event', 'FAM-15', 'Picnic at the park', m('Sun · 12:00', 'calendar') + m('3', 'eye'), avatar(DEMO_FAM[0], 'xs')) +
+      demoCard('want', 'FAM-18', 'New board game for game night', m('', 'link') + m('4', 'thumb'), avatar(DEMO_FAM[3], 'xs')) +
+      '</div>' +
+      '<div class="land-gain">' + BROWNIE + '+10 for Alex</div>' +
+      '</div>';
+  }
+  function renderLanding() {
+    var invited = !!S.pendingJoin;
+    var steps = [
+      ['Start a family board', 'Make an account, name your board and pick an avatar. It takes about a minute.'],
+      ['Invite your people', 'Everyone else scans the board\'s QR code or types its 6-letter code. Up to 4 people per board.'],
+      ['Plan, pitch in, earn', 'Add tasks, events and wants. Finish tasks to earn brownie points and level up.']
+    ];
+    var kinds = [
+      ['task', 'Tasks', 'Chores and to-dos. Give one to someone or leave it open, set a due date and priority, and add brownie points as a reward.'],
+      ['event', 'Events', 'Plans with a date, time and place. Everyone taps “I\'m in” so you know who\'s coming.'],
+      ['want', 'Wants', 'Wishes for the family or for one person, with an optional link. Others can +1 the ones they like too.']
+    ];
+    var feats = [
+      ['hand', 'Bounties anyone can claim', 'Put points on a task and leave it open. Whoever claims it and finishes it gets the points.'],
+      ['shield', 'Optional approval', 'Mark a task as needing a check. When it\'s done, someone else approves it before the points are paid.'],
+      ['repeat', 'Repeating tasks and turns', 'Repeat daily, on weekdays, weekly, every 2 weeks or monthly. Turn on “Take turns” to pass the job around.'],
+      ['board', 'A board for the whole family', 'Cards move from To do to In progress, Review and Done. Filter by type, your own cards, or open bounties.'],
+      ['chat', 'Family chat', 'Chat together and see a feed of what got done. Type FAM-12 to link a card. Every card has its own comments too.'],
+      ['eye', 'See who\'s seen it', 'Every card shows who has read it, who\'s coming, or who +1\'d it. No more “I didn\'t know”.'],
+      ['trophy', 'Levels and a podium', 'Climb from Rookie to Mythic, chase a weekly family goal, and see who\'s on top this week.'],
+      ['device', 'Phone, computer, day or night', 'Made for phones first, with a wider board on computers and a dark night mode for evenings.']
+    ];
+    var faqs = [
+      ['Who is it for?', 'Households of 2 to 4 people: parents and kids, couples, or roommates. Each board holds up to 4 people.'],
+      ['Does everyone need to install an app?', 'No. Fun To Plan runs in the web browser on phones and computers. Each person makes their own account and joins with the board\'s code.'],
+      ['Who can see our board?', 'Only the people on your board. Every change goes through the server, which checks that you belong to the family first.'],
+      ['How do we get started without a blank board?', 'When you create a board you can add a few starter cards that show how things work. Delete them whenever you like.'],
+      ['What if someone leaves?', 'Anyone can leave a board and rejoin later with the code, and they keep their brownie points. The person who made the board can also remove members.']
+    ];
+    var cta = invited
+      ? '<button class="btn btn-dark btn-lg" data-act="land-auth" data-mode="signup">Join your family' + ic('arrow') + '</button>' +
+        '<button class="btn btn-lg" data-act="land-auth" data-mode="login">I have an account</button>'
+      : '<button class="btn btn-dark btn-lg" data-act="land-auth" data-mode="signup">Get started' + ic('arrow') + '</button>' +
+        '<button class="btn btn-lg" data-act="land-auth" data-mode="login">I have an account</button>';
+
+    stage.innerHTML =
+      '<div class="land"><div class="land-inner">' +
+      '<header class="land-nav"><div class="brand-logo">' + ic('check') + '</div><div class="brand-name">Fun To Plan</div><span class="sp"></span>' +
+      '<button class="icon-btn" data-act="theme" aria-label="Switch light or night mode">' + ic('moon') + '</button>' +
+      '<button class="btn btn-sm" data-act="land-auth" data-mode="login">Log in</button></header>' +
+
+      (invited ? '<div class="notice">' + ic('qr') + '<span>You\'ve been invited to a family board! Have a look around, then create an account (or log in) to join.</span></div>' : '') +
+
+      '<section class="land-hero">' +
+      '<div class="land-copy">' +
+      '<span class="pill pill-in">' + ic('family') + 'For families of 2 to 4</span>' +
+      '<h1 class="land-h1">The family to-do list that feels like a game.</h1>' +
+      '<p class="land-lead">Fun To Plan puts chores, plans and wish lists on one shared board. Everyone can see what\'s going on, pitch in, and earn <b>brownie points</b> for getting things done.</p>' +
+      '<div class="land-cta">' + cta + '</div>' +
+      '<p class="small muted b">Works in the browser on phones and computers. No app store needed.</p>' +
+      '</div>' +
+      demoBoardHTML() +
+      '</section>' +
+
+      '<section class="land-sec"><div class="page-kicker">How it works</div><h2 class="land-h2">Up and running in three steps</h2>' +
+      '<ol class="land-steps">' + steps.map(function (s, i) {
+        return '<li class="neu pad"><span class="land-num">' + (i + 1) + '</span><div class="b">' + s[0] + '</div><p class="land-p">' + s[1] + '</p></li>';
+      }).join('') + '</ol></section>' +
+
+      '<section class="land-sec"><div class="page-kicker">One board, three kinds of cards</div><h2 class="land-h2">Everything the family needs to keep track of</h2>' +
+      '<div class="land-grid3">' + kinds.map(function (k) {
+        return '<div class="neu pad land-kind"><div class="row">' + typeChip(k[0]) + '<span class="section-title">' + k[1] + '</span></div><p class="land-p">' + k[2] + '</p></div>';
+      }).join('') + '</div>' +
+      '<p class="land-p muted center">Each card gets a short key like <span class="key">FAM-12</span>, so it\'s easy to talk about in chat.</p></section>' +
+
+      '<section class="land-sec"><div class="page-kicker">Features</div><h2 class="land-h2">Small touches that keep everyone on the same page</h2>' +
+      '<div class="land-feats">' + feats.map(function (f) {
+        return '<div class="land-feat"><span class="land-ic">' + ic(f[0]) + '</span><div><div class="b">' + f[1] + '</div><p class="land-p">' + f[2] + '</p></div></div>';
+      }).join('') + '</div></section>' +
+
+      '<section class="land-sec"><div class="neu pad land-points">' +
+      '<div class="land-points-head">' + BROWNIE.replace('class="brownie"', 'class="brownie land-brownie"') +
+      '<div><div class="page-kicker">Brownie points</div><h2 class="land-h2">Why the chores actually get done</h2></div></div>' +
+      '<ul class="land-list">' +
+      '<li>Add points to a task. Whoever finishes it earns them.</li>' +
+      '<li>If a task needs approval, the points are paid once someone else says it\'s done.</li>' +
+      '<li>Points add up to levels, a weekly family goal, and a podium for the week and for all time.</li>' +
+      '<li>Reopen a finished card and its points are taken back, so the score stays fair.</li>' +
+      '</ul>' +
+      '<div class="land-levels">' + LEVELS.map(function (l) { return '<span class="pill">' + l[1] + ' <span class="muted">' + l[0] + '</span></span>'; }).join('') + '</div>' +
+      '</div></section>' +
+
+      '<section class="land-sec"><div class="page-kicker">Questions</div><h2 class="land-h2">Good to know</h2>' +
+      '<div class="land-faq">' + faqs.map(function (q) {
+        return '<details class="neu"><summary>' + q[0] + ic('down') + '</summary><p class="land-p">' + q[1] + '</p></details>';
+      }).join('') + '</div></section>' +
+
+      '<section class="land-sec"><div class="land-final">' +
+      '<h2 class="land-h2">' + (invited ? 'Your family is waiting.' : 'Ready to make chores a bit more fun?') + '</h2>' +
+      '<p class="land-p">' + (invited ? 'Create an account or log in, pick an avatar, and you\'re on the board.' : 'Start a board, invite your family, and hand out the first brownie points today.') + '</p>' +
+      '<div class="land-cta center-cta">' + cta + '</div></div></section>' +
+
+      '<footer class="land-foot small muted b">Fun To Plan · one shared board for the whole family</footer>' +
+      '</div></div>';
+  }
+
   /* ------------------------------------------------------------ auth screen */
   function renderAuth() {
     var signup = S.authMode === 'signup';
     stage.innerHTML =
       '<div class="auth"><div class="auth-inner">' +
+      '<div><button type="button" class="btn btn-sm btn-ghost" data-act="land-back">' + ic('back') + 'Back</button></div>' +
       '<div class="auth-hero"><div class="big-logo"><div class="inner">' + ic('check') + '</div></div>' +
       '<div><div class="auth-title">Fun To Plan</div></div>' +
       '<p class="auth-sub">One shared board for the whole family. Tasks, events, wants, chat and brownie points.</p></div>' +
@@ -467,12 +598,10 @@
       '<button class="btn btn-dark btn-lg btn-block" type="submit">' + (signup ? 'Create account' : 'Log in') + '</button>' +
       (signup ? '' : '<div class="center"><button type="button" class="link-btn" data-act="forgot">Forgot password?</button></div>') +
       '</form>' +
-      '<div class="features">' +
-      '<div class="feature">' + ic('board', 'ic-lg') + 'One family board</div>' +
-      '<div class="feature">' + ic('repeat', 'ic-lg') + 'Recurring bounties</div>' +
-      '<div class="feature">' + BROWNIE.replace('class="brownie"', 'class="brownie" style="width:26px;height:26px"') + 'Brownie points</div>' +
-      '</div>' +
+      '<p class="center small muted b">New here? <button type="button" class="link-btn" data-act="land-back">See how Fun To Plan works</button></p>' +
       '</div></div>';
+    var first = $('[name=email]');
+    if (first && window.matchMedia && window.matchMedia('(min-width: 760px)').matches) first.focus();
   }
 
   /* ------------------------------------------------------------ onboarding */
@@ -1254,6 +1383,8 @@
       var v = $('#goal-val', layer); if (v) v.innerHTML = BROWNIE + S.pick.goal;
     },
     'auth-mode': function (el) { S.authMode = el.getAttribute('data-mode'); renderAuth(); },
+    'land-auth': function (el) { S.authMode = el.getAttribute('data-mode') || 'signup'; setPhase('auth'); },
+    'land-back': function () { setPhase('landing'); },
     'forgot': function () {
       var email = ($('[name=email]') || {}).value || '';
       if (!email.trim()) { var err = $('[data-err]'); if (err) err.textContent = 'Type your email above first, then tap “Forgot password?”.'; return; }
@@ -1427,8 +1558,8 @@
       S.email = d.email;
       if (d.state) applyData(d); else setPhase('onboard');
     }, function (e) {
-      if (e.code === 'auth') setPhase('auth');
-      else { setPhase('auth'); toast(e.message, true); }
+      setPhase('landing');
+      if (e.code !== 'auth') toast(e.message, true);
     });
   }
 

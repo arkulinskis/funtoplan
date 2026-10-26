@@ -6,6 +6,8 @@ Works on phones (bottom tab bar, bottom sheets) and on desktop (side rail, 4-col
 
 ## Features
 
+- **Landing page.** Visitors who aren't logged in first see what the app does, how it works, the card types, brownie points and a short FAQ. Log in and sign up are one tap away. People who are already logged in go straight to their board.
+
 - **One family board.** One person creates the board and the others join by scanning its **QR code** (or typing the 6-letter code). Up to 4 people.
 - **Three card types.** Each card gets a key like `FAM-12`.
   - **Task**: assignee (or open to anyone), due date, priority, brownie point bounty.
