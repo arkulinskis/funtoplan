@@ -5,6 +5,8 @@ import anvil.users
 import anvil.js
 import json
 
+from .. import legal
+
 # Fun To Plan
 # -----------
 # The whole interface is a neumorphic single-page UI (theme/assets/ftp.js + ftp.css)
@@ -37,6 +39,7 @@ class Form1(Form1Template):
     self._mounted = True
     app = anvil.js.window.FunToPlan
     app.mount(anvil.js.get_dom_node(self), self.bridge)
+    legal.refresh_soon()  # Privacy & Terms: reminder bar for signed-in people who haven't accepted
 
   # Called from JavaScript. Blocking calls return a Promise on the JS side.
   def bridge(self, action, payload_json):
@@ -45,6 +48,7 @@ class Form1(Form1Template):
       with anvil.server.no_loading_indicator:
         if action == 'login':
           anvil.users.login_with_email(payload.get('email', '').strip(), payload.get('password', ''), remember=True)
+          legal.refresh_soon()
           return self._api('bootstrap', '{}')
         if action == 'signup':
           email = payload.get('email', '').strip()
@@ -54,12 +58,14 @@ class Form1(Form1Template):
           anvil.users.signup_with_email(email, password)
           if anvil.users.get_user() is None:
             anvil.users.login_with_email(email, password, remember=True)
+          legal.refresh_soon()  # records the sign-up tick box
           return self._api('bootstrap', '{}')
         if action == 'reset_password':
           anvil.users.send_password_reset_email(payload.get('email', '').strip())
           return json.dumps({'ok': True, 'data': {}})
         if action == 'logout':
           anvil.users.logout()
+          legal.signed_out()
           return json.dumps({'ok': True, 'data': {}})
         return self._api(action, payload_json)
     except Exception as e:

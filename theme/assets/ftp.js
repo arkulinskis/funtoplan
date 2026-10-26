@@ -590,7 +590,7 @@
       '<p class="land-p">' + (invited ? 'Create an account or log in, pick an avatar, and you\'re on the board.' : 'Start a board, invite your family, and hand out the first brownie points today.') + '</p>' +
       '<div class="land-cta center-cta">' + cta + '</div></div></section>' +
 
-      '<footer class="land-foot small muted b">Fun To Plan · one shared board for the whole family</footer>' +
+      '<footer class="land-foot small muted b">Fun To Plan · one shared board for the whole family' + legalLink(' · ') + '</footer>' +
       '</div></div>';
   }
 
@@ -609,11 +609,13 @@
       '<button type="button" class="' + (signup ? 'on' : '') + '" data-act="auth-mode" data-mode="signup">Sign up</button></div>' +
       '<label class="field"><span class="label">Email</span><input class="input" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@family.com" required></label>' +
       '<label class="field"><span class="label">Password</span><input class="input" name="password" type="password" autocomplete="' + (signup ? 'new-password' : 'current-password') + '" placeholder="' + (signup ? 'At least 6 characters' : 'Your password') + '" required></label>' +
+      (signup && window.LegalKit ? LegalKit.consentField() : '') +
       '<div class="err" data-err></div>' +
       '<button class="btn btn-dark btn-lg btn-block" type="submit">' + (signup ? 'Create account' : 'Log in') + '</button>' +
       (signup ? '' : '<div class="center"><button type="button" class="link-btn" data-act="forgot">Forgot password?</button></div>') +
       '</form>' +
       '<p class="center small muted b">New here? <button type="button" class="link-btn" data-act="land-back">See how Fun To Plan works</button></p>' +
+      '<p class="center tiny muted b">' + legalLink('') + '</p>' +
       '</div></div>';
     var first = $('[name=email]');
     if (first && window.matchMedia && window.matchMedia('(min-width: 760px)').matches) first.focus();
@@ -949,12 +951,17 @@
       '<div class="setting"><span class="ic-wrap">' + ic('moon') + '</span><div class="sp"><div class="t">Night mode</div><div class="s">Charcoal neumorphism</div></div>' +
       '<button class="toggle ' + (S.theme === 'night' ? 'on' : '') + '" data-act="theme" aria-label="Night mode"></button></div>' +
       (owner ? setting('regen-code', 'refresh', 'New join code', 'Old QR codes and links stop working') : '') +
+      (window.LegalKit ? '<button class="setting" data-lk-open="overview"><span class="ic-wrap">' + ic('shield') + '</span><div class="sp"><div class="t">Privacy &amp; Terms</div><div class="s">Your data, your rights, the rules</div></div></button>' : '') +
       setting('leave', 'logout', 'Leave family', 'Your cards stay on the board', true) +
       setting('logout', 'logout', 'Log out', esc(S.email || ''), false) +
       '</div></div>';
     h += '</div></div>';
     h += '<p class="center tiny muted b" style="margin-top:26px">Fun To Plan · made for families of 2–4 · board ' + esc(fam.code) + '</p>';
     return h;
+  }
+  // "Privacy & Terms" link (opens the shared legal page from legal-kit.js)
+  function legalLink(prefix) {
+    return window.LegalKit ? prefix + '<button type="button" class="link-btn" data-lk-open="overview">Privacy &amp; Terms</button>' : '';
   }
   function setting(act, icon, title, sub, danger) {
     return '<button class="setting ' + (danger ? 'danger' : '') + '" data-act="' + act + '"><span class="ic-wrap">' + ic(icon) + '</span><div class="sp"><div class="t">' + title + '</div><div class="s">' + sub + '</div></div></button>';
@@ -1452,6 +1459,7 @@
       var err = $('[data-err]', f), btn = $('button[type=submit]', f);
       var email = f.email.value.trim(), password = f.password.value;
       if (!email || !password) { err.textContent = 'Enter your email and password.'; return; }
+      if (S.authMode === 'signup' && window.LegalKit && !LegalKit.consentChecked(f)) return;
       err.textContent = '';
       var label = btn.innerHTML; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
       api(S.authMode === 'signup' ? 'signup' : 'login', { email: email, password: password }).then(function (d) {
