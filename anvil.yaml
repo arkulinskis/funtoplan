@@ -257,7 +257,7 @@ metadata: {description: 'A shared family board: tasks, events, wants, chat and b
 name: Fun To Plan
 native_deps:
   head_html: |
-    <script src="_/theme/legal-kit.js?v=bb5824ed0b"></script>
+    <script src="_/theme/legal-kit.js?v=3da956eb30"></script>
     <meta name="theme-color" content="#dce9f5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="preconnect" href="https://fonts.googleapis.com">
