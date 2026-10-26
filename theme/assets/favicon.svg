@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Fun To Plan tab icon: the sunrise gradient tile with an ink check, same as the in-app logo -->
+  <defs>
+    <linearGradient id="g" x1="0" y1=".2" x2="1" y2=".8">
+      <stop offset="0" stop-color="#ffb38f"/>
+      <stop offset=".36" stop-color="#f49ac1"/>
+      <stop offset=".68" stop-color="#b4a2f2"/>
+      <stop offset="1" stop-color="#8ecdf2"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="20" fill="url(#g)"/>
+  <path d="M5 12.5l4.5 4.5L19 7.5" transform="translate(11 10.6) scale(1.75)" fill="none" stroke="#1d1a2b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

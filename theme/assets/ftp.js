@@ -99,6 +99,21 @@
   };
   var bridge = null, app = null, stage = null, layer = null, toasts = null;
 
+  /* ------------------------------------------------------------ preboot
+     Runs as soon as this script loads, while Anvil's startup spinner is still
+     up: match the page to the saved theme, and use our tab icon instead of
+     Anvil's default one. */
+  function useOurIcons() {
+    if (!document.querySelector('link[rel~="icon"][data-ftp]')) return;
+    var links = document.querySelectorAll('link[rel~="icon"], link[rel="apple-touch-icon"]');
+    for (var i = 0; i < links.length; i++) {
+      if (!links[i].hasAttribute('data-ftp')) links[i].parentNode.removeChild(links[i]);
+    }
+  }
+  document.documentElement.setAttribute('data-ftp-theme', S.theme);
+  useOurIcons();
+  document.addEventListener('DOMContentLoaded', useOurIcons);
+
   /* ------------------------------------------------------------ utils */
   function store(k, v) {
     try {
@@ -1311,6 +1326,7 @@
   function setTheme(t) {
     S.theme = t; store('ftp.theme', t);
     app.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-ftp-theme', t);
     document.documentElement.style.background = t === 'night' ? '#24282d' : '#dce9f5';
     var meta = document.querySelector('meta[name=theme-color]');
     if (meta) meta.setAttribute('content', t === 'night' ? '#24282d' : '#dce9f5');

@@ -758,8 +758,6 @@
 @keyframes bit { to { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; } }
 
 .splash { flex: 1; display: grid; place-items: center; }
-.splash .big-logo { animation: breathe 1.6s ease-in-out infinite; }
-@keyframes breathe { 50% { box-shadow: var(--inset); } }
 .spin { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid currentColor; border-right-color: transparent; animation: spin .7s linear infinite; display: inline-block; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
