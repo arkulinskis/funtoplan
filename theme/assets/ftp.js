@@ -56,7 +56,7 @@
     '<circle class="b-dot" cx="8" cy="15.5" r="1"/><circle class="b-dot" cx="13.5" cy="17" r="1"/><circle class="b-dot" cx="16.5" cy="14.2" r=".9"/></svg>';
 
   var AVATARS = ['🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐸', '🐵', '🦉', '🐧', '🐳', '🦄', '🐝', '🐢', '🐙', '🦖', '🐶', '🐱', '🚀', '⭐', '🌈', '🍀', '🍩', '🎸', '👩', '👨', '👧', '👦', '👵', '👴'];
-  var COLORS = ['#8ecdf2', '#5aaee0', '#b9e2fa', '#9aa8b6', '#5f6b78', '#1b1f24'];
+  var COLORS = ['#8ecdf2', '#ffb38f', '#f49ac1', '#b4a2f2', '#8fd6b4', '#ffd27a', '#5f6b78', '#1b1f24'];
   var LEVELS = [[0, 'Rookie'], [30, 'Helper'], [80, 'Sidekick'], [150, 'Teammate'], [250, 'Ace'], [400, 'Hero'], [600, 'Champion'], [850, 'Captain'], [1150, 'Legend'], [1500, 'Mythic']];
   var KIND = {
     task: { icon: 'check', label: 'Task' },
@@ -308,7 +308,7 @@
     var y = rect ? rect.top + rect.height / 2 : window.innerHeight / 2;
     var b = document.createElement('div');
     b.className = 'burst'; b.style.left = x + 'px'; b.style.top = y + 'px';
-    var colors = ['#8ecdf2', '#6bbbea', '#1b1f24', '#9aa8b6', '#c99a6e', '#dff1fd', '#8a5a3b'];
+    var colors = ['#ffb38f', '#f49ac1', '#b4a2f2', '#8ecdf2', '#1b1f24', '#c99a6e', '#8a5a3b'];
     var s = '<div class="gain">' + html + '</div>';
     for (var i = 0; i < 22; i++) {
       var a = (Math.PI * 2 * i) / 22 + Math.random() * 0.4, dist = 60 + Math.random() * 90;
@@ -459,7 +459,7 @@
   // before they are asked to log in or sign up.
   var DEMO_FAM = [
     { name: 'Mom', avatar: '🦊', color: COLORS[1] },
-    { name: 'Dad', avatar: '🐻', color: COLORS[4] },
+    { name: 'Dad', avatar: '🐻', color: COLORS[6] },
     { name: 'Alex', avatar: '🐼', color: COLORS[0] },
     { name: 'Mia', avatar: '🦄', color: COLORS[2] }
   ];
@@ -529,7 +529,7 @@
       '<section class="land-hero">' +
       '<div class="land-copy">' +
       '<span class="pill pill-in">' + ic('family') + 'For families of 2 to 4</span>' +
-      '<h1 class="land-h1">The family to-do list that feels like a game.</h1>' +
+      '<h1 class="land-h1">The family to-do list that <span class="grad-text">feels like a game.</span></h1>' +
       '<p class="land-lead">Fun To Plan puts chores, plans and wish lists on one shared board. Everyone can see what\'s going on, pitch in, and earn <b>brownie points</b> for getting things done.</p>' +
       '<div class="land-cta">' + cta + '</div>' +
       '<p class="small muted b">Works in the browser on phones and computers. No app store needed.</p>' +
@@ -741,7 +741,9 @@
   }
   function ring(pct) {
     var c = 2 * Math.PI * 38, off = c * (1 - Math.max(0.02, Math.min(1, pct)));
-    return '<svg viewBox="0 0 88 88"><circle class="track" cx="44" cy="44" r="38"/><circle class="fill" cx="44" cy="44" r="38" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '"/></svg>';
+    return '<svg viewBox="0 0 88 88"><defs><linearGradient id="ftp-ring-grad" x1="0" y1="1" x2="1" y2="0">' +
+      '<stop offset="0" stop-color="#8ecdf2"/><stop offset=".35" stop-color="#b4a2f2"/><stop offset=".7" stop-color="#f49ac1"/><stop offset="1" stop-color="#ffb38f"/></linearGradient></defs>' +
+      '<circle class="track" cx="44" cy="44" r="38"/><circle class="fill" cx="44" cy="44" r="38" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '"/></svg>';
   }
   function viewHome() {
     var m = me(), lv = levelOf(m.points), fam = S.st.family;

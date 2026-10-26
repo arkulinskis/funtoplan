@@ -250,9 +250,9 @@ native_deps:
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="_/theme/ftp.css?v=2">
+    <link rel="stylesheet" href="_/theme/ftp.css?v=3">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-    <script src="_/theme/ftp.js?v=2"></script>
+    <script src="_/theme/ftp.js?v=3"></script>
     <style>html, body { background: #dce9f5; margin: 0; }</style>
 package_name: Fun_To_Plan
 runtime_options:
