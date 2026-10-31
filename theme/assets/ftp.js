@@ -590,7 +590,7 @@
       '<p class="land-p">' + (invited ? 'Create an account or log in, pick an avatar, and you\'re on the board.' : 'Start a board, invite your family, and hand out the first brownie points today.') + '</p>' +
       '<div class="land-cta center-cta">' + cta + '</div></div></section>' +
 
-      '<footer class="land-foot small muted b">Fun To Plan · one shared board for the whole family' + legalLink(' · ') + '</footer>' +
+      '<footer class="land-foot small muted b">Fun To Plan · one shared board for the whole family' + legalLink(' · ') + ' · ' + ideaLink() + '</footer>' +
       '</div></div>';
   }
 
@@ -615,7 +615,7 @@
       (signup ? '' : '<div class="center"><button type="button" class="link-btn" data-act="forgot">Forgot password?</button></div>') +
       '</form>' +
       '<p class="center small muted b">New here? <button type="button" class="link-btn" data-act="land-back">See how Fun To Plan works</button></p>' +
-      '<p class="center tiny muted b">' + legalLink('') + '</p>' +
+      '<p class="center tiny muted b">' + legalLink('') + ' · ' + ideaLink() + '</p>' +
       '</div></div>';
     var first = $('[name=email]');
     if (first && window.matchMedia && window.matchMedia('(min-width: 760px)').matches) first.focus();
@@ -962,6 +962,10 @@
   // "Privacy & Terms" link (opens the shared legal page from legal-kit.js)
   function legalLink(prefix) {
     return window.LegalKit ? prefix + '<button type="button" class="link-btn" data-lk-open="overview">Privacy &amp; Terms</button>' : '';
+  }
+  // "Suggest an idea": the Prepsto feedback panel (widget.js in anvil.yaml head_html slides it in; plain link otherwise)
+  function ideaLink() {
+    return '<a class="link-btn" href="https://prepsto.com/#f/dj4ujb9" target="_blank" rel="noopener" data-prepsto-open>Suggest an idea</a>';
   }
   function setting(act, icon, title, sub, danger) {
     return '<button class="setting ' + (danger ? 'danger' : '') + '" data-act="' + act + '"><span class="ic-wrap">' + ic(icon) + '</span><div class="sp"><div class="t">' + title + '</div><div class="s">' + sub + '</div></div></button>';
