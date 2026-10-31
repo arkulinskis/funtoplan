@@ -9,7 +9,7 @@ from .. import legal
 
 # Fun To Plan
 # -----------
-# The whole interface is a neumorphic single-page UI (theme/assets/ftp.js + ftp.css)
+# The whole interface is a "fridge door" single-page UI (theme/assets/ftp.js + ftp.css)
 # mounted inside this form. This form is the bridge between that UI and Anvil:
 #   - login / signup / logout use the Anvil Users service
 #   - everything else goes to the server module `api.ftp_api`

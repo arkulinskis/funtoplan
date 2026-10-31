@@ -56,7 +56,7 @@
     '<circle class="b-dot" cx="8" cy="15.5" r="1"/><circle class="b-dot" cx="13.5" cy="17" r="1"/><circle class="b-dot" cx="16.5" cy="14.2" r=".9"/></svg>';
 
   var AVATARS = ['🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐸', '🐵', '🦉', '🐧', '🐳', '🦄', '🐝', '🐢', '🐙', '🦖', '🐶', '🐱', '🚀', '⭐', '🌈', '🍀', '🍩', '🎸', '👩', '👨', '👧', '👦', '👵', '👴'];
-  var COLORS = ['#8ecdf2', '#ffb38f', '#f49ac1', '#b4a2f2', '#8fd6b4', '#ffd27a', '#5f6b78', '#1b1f24'];
+  var COLORS = ['#e5484d', '#f07c2a', '#f2b51d', '#2fa36b', '#3a7be0', '#8a5cd6', '#e0559a', '#2b2a33'];
   var LEVELS = [[0, 'Rookie'], [30, 'Helper'], [80, 'Sidekick'], [150, 'Teammate'], [250, 'Ace'], [400, 'Hero'], [600, 'Champion'], [850, 'Captain'], [1150, 'Legend'], [1500, 'Mythic']];
   var KIND = {
     task: { icon: 'check', label: 'Task' },
@@ -323,7 +323,7 @@
     var y = rect ? rect.top + rect.height / 2 : window.innerHeight / 2;
     var b = document.createElement('div');
     b.className = 'burst'; b.style.left = x + 'px'; b.style.top = y + 'px';
-    var colors = ['#ffb38f', '#f49ac1', '#b4a2f2', '#8ecdf2', '#1b1f24', '#c99a6e', '#8a5a3b'];
+    var colors = ['#e5484d', '#f2b51d', '#3a7be0', '#2fa36b', '#f07c2a', '#8a5cd6', '#fff0a0', '#cfe4ff', '#ffd2dc'];
     var s = '<div class="gain">' + html + '</div>';
     for (var i = 0; i < 22; i++) {
       var a = (Math.PI * 2 * i) / 22 + Math.random() * 0.4, dist = 60 + Math.random() * 90;
@@ -375,7 +375,7 @@
     if (opts.cta) right = opts.cta;
     else if (who) right = avatar(who, 'xs');
     else if (it.kind === 'task' && eff(it) !== 'done') right = '<span class="open-slot">open</span>';
-    return '<div class="card' + (eff(it) === 'done' ? ' is-done' : '') + '" role="button" tabindex="0" data-act="open" data-id="' + it.id + '">' +
+    return '<div class="card k-' + it.kind + (eff(it) === 'done' ? ' is-done' : '') + '" role="button" tabindex="0" data-act="open" data-id="' + it.id + '">' +
       '<div class="card-top">' + typeChip(it.kind) + '<span class="key">' + esc(it.key) + '</span>' + prioIcon(it.priority) +
       '<span class="sp"></span>' + (opts.status ? statusPill(it) : '') + (it.points ? bp(it.points) : '') + '</div>' +
       '<div class="card-title">' + esc(it.title) + '</div>' +
@@ -479,7 +479,7 @@
     { name: 'Mia', avatar: '🦄', color: COLORS[2] }
   ];
   function demoCard(kind, key, title, meta, right, pts) {
-    return '<div class="card demo" aria-hidden="true">' +
+    return '<div class="card demo k-' + kind + '" aria-hidden="true">' +
       '<div class="card-top">' + typeChip(kind) + '<span class="key">' + key + '</span><span class="sp"></span>' + (pts ? bp(pts) : '') + '</div>' +
       '<div class="card-title">' + title + '</div>' +
       '<div class="card-meta">' + meta + '<span class="sp"></span>' + right + '</div></div>';
@@ -759,7 +759,7 @@
   function ring(pct) {
     var c = 2 * Math.PI * 38, off = c * (1 - Math.max(0.02, Math.min(1, pct)));
     return '<svg viewBox="0 0 88 88"><defs><linearGradient id="ftp-ring-grad" x1="0" y1="1" x2="1" y2="0">' +
-      '<stop offset="0" stop-color="#8ecdf2"/><stop offset=".35" stop-color="#b4a2f2"/><stop offset=".7" stop-color="#f49ac1"/><stop offset="1" stop-color="#ffb38f"/></linearGradient></defs>' +
+      '<stop offset="0" stop-color="#2fa36b"/><stop offset=".35" stop-color="#f2b51d"/><stop offset=".7" stop-color="#f07c2a"/><stop offset="1" stop-color="#e5484d"/></linearGradient></defs>' +
       '<circle class="track" cx="44" cy="44" r="38"/><circle class="fill" cx="44" cy="44" r="38" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '"/></svg>';
   }
   function viewHome() {
@@ -948,7 +948,7 @@
     h += '<div class="section">' + sectionHead('Settings') + '<div class="neu">' +
       setting('profile', 'user', 'Edit my profile', esc(m.avatar + ' ' + m.name) + ' · Level ' + lv.n + ' ' + lv.title) +
       (owner ? setting('family-settings', 'gear', 'Family settings', 'Name and weekly brownie goal') : '') +
-      '<div class="setting"><span class="ic-wrap">' + ic('moon') + '</span><div class="sp"><div class="t">Night mode</div><div class="s">Charcoal neumorphism</div></div>' +
+      '<div class="setting"><span class="ic-wrap">' + ic('moon') + '</span><div class="sp"><div class="t">Night mode</div><div class="s">The fridge after dark</div></div>' +
       '<button class="toggle ' + (S.theme === 'night' ? 'on' : '') + '" data-act="theme" aria-label="Night mode"></button></div>' +
       (owner ? setting('regen-code', 'refresh', 'New join code', 'Old QR codes and links stop working') : '') +
       (window.LegalKit ? '<button class="setting" data-lk-open="overview"><span class="ic-wrap">' + ic('shield') + '</span><div class="sp"><div class="t">Privacy &amp; Terms</div><div class="s">Your data, your rights, the rules</div></div></button>' : '') +
@@ -1334,9 +1334,9 @@
     S.theme = t; store('ftp.theme', t);
     app.setAttribute('data-theme', t);
     document.documentElement.setAttribute('data-ftp-theme', t);
-    document.documentElement.style.background = t === 'night' ? '#24282d' : '#dce9f5';
+    document.documentElement.style.background = t === 'night' ? '#1e2126' : '#f1ede4';
     var meta = document.querySelector('meta[name=theme-color]');
-    if (meta) meta.setAttribute('content', t === 'night' ? '#24282d' : '#dce9f5');
+    if (meta) meta.setAttribute('content', t === 'night' ? '#1e2126' : '#f1ede4');
   }
 
   /* ------------------------------------------------------------ actions */
