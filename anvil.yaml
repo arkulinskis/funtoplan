@@ -253,13 +253,37 @@ db_schema:
     indexes: []
     server: full
     title: Users
-metadata: {description: 'A shared family board: tasks, events, wants, chat and brownie points.', logo_img: 'asset:logo.png', title: Fun To Plan}
+metadata:
+  description: "A shared family board for 2 to 4 people: chores, events and wish lists, family chat, recurring tasks that take turns, and brownie points for getting things done."
+  logo_img: "asset:logo.png"
+  title: "Fun To Plan: a family chore board with brownie points"
 name: Fun To Plan
 native_deps:
   head_html: |
     <!-- Prepsto feedback panel (the only feedback channel): every Submit feedback link (data-prepsto-open) opens it -->
     <script src="https://prepsto.com/_/theme/widget.js" data-prepsto="dj4ujb9" data-button="false" data-label="Submit feedback" async></script>
     <script src="_/theme/legal-kit.js?v=53516f3f90"></script>
+    <!-- seo:start (APP_MAKER/seo: edit seo/apps/funtoplan.json and run seo.py, not here) -->
+    <link rel="canonical" href="https://funtoplan.com/">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="keywords" content="family chore app, family task board, chore chart app, family organizer, chores with points, shared family to-do list, household tasks app, kids chores rewards, family kanban">
+    <meta name="author" content="Arkvital">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Fun To Plan">
+    <meta property="og:title" content="Fun To Plan: a family chore board with brownie points">
+    <meta property="og:description" content="A shared family board for 2 to 4 people: chores, events and wish lists, family chat, recurring tasks that take turns, and brownie points for getting things done.">
+    <meta property="og:locale" content="en_CA">
+    <meta property="og:url" content="https://funtoplan.com/">
+    <meta property="og:image" content="https://funtoplan.com/_/theme/og-image.png">
+    <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Fun To Plan: One family board for tasks, events and wants, with brownie points">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fun To Plan: a family chore board with brownie points">
+    <meta name="twitter:description" content="A shared family board for 2 to 4 people: chores, events and wish lists, family chat, recurring tasks that take turns, and brownie points for getting things done.">
+    <meta name="twitter:image" content="https://funtoplan.com/_/theme/og-image.png">
+    <link rel="alternate" type="text/plain" title="Fun To Plan for AI assistants" href="https://funtoplan.com/llms.txt">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "@id": "https://funtoplan.com/#app", "name": "Fun To Plan", "url": "https://funtoplan.com/", "description": "A shared family board for 2 to 4 people: chores, events and wish lists, family chat, recurring tasks that take turns, and brownie points for getting things done.", "image": "https://funtoplan.com/_/theme/og-image.png", "inLanguage": "en", "publisher": {"@id": "https://arkvital.com/#org"}, "keywords": "family chore app, family task board, chore chart app, family organizer, chores with points, shared family to-do list, household tasks app, kids chores rewards, family kanban", "applicationCategory": "LifestyleApplication", "operatingSystem": "Any (web browser)", "browserRequirements": "Requires JavaScript and a modern web browser", "featureList": ["Three card types: tasks, events and wants", "Brownie point bounties and optional approval for finished tasks", "Recurring tasks with Take turns to rotate them through the family", "Family chat and an activity feed", "Join with a QR code; works on phones and desktop", "Levels, a weekly family goal and a 7-day podium"], "audience": {"@type": "Audience", "audienceType": "Families and households of 2 to 4 people"}}, {"@type": "WebSite", "@id": "https://funtoplan.com/#site", "url": "https://funtoplan.com/", "name": "Fun To Plan", "publisher": {"@id": "https://arkvital.com/#org"}}, {"@type": "Organization", "@id": "https://arkvital.com/#org", "name": "Arkvital", "url": "https://arkvital.com", "email": "arkvital@outlook.com", "address": {"@type": "PostalAddress", "addressLocality": "Montreal", "addressRegion": "QC", "addressCountry": "CA"}}]}</script>
+    <!-- seo:end -->
     <meta name="theme-color" content="#f1ede4">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="preconnect" href="https://fonts.googleapis.com">
