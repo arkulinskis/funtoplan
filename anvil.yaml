@@ -262,7 +262,7 @@ native_deps:
   head_html: |
     <!-- Prepsto feedback panel (the only feedback channel): every Submit feedback link (data-prepsto-open) opens it -->
     <script src="https://prepsto.com/_/theme/widget.js" data-prepsto="dj4ujb9" data-button="false" data-label="Submit feedback" async></script>
-    <script src="_/theme/legal-kit.js?v=53516f3f90"></script>
+    <script src="_/theme/legal-kit.js?v=87f5b77e30"></script>
     <!-- seo:start (APP_MAKER/seo: edit seo/apps/funtoplan.json and run seo.py, not here) -->
     <link rel="canonical" href="https://funtoplan.com/">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
