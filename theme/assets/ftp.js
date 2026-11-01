@@ -963,9 +963,9 @@
   function legalLink(prefix) {
     return window.LegalKit ? prefix + '<button type="button" class="link-btn" data-lk-open="overview">Privacy &amp; Terms</button>' : '';
   }
-  // "Suggest an idea": the Prepsto feedback panel (widget.js in anvil.yaml head_html slides it in; plain link otherwise)
+  // "Submit feedback": the Prepsto feedback panel (widget.js in anvil.yaml head_html slides it in; plain link otherwise)
   function ideaLink() {
-    return '<a class="link-btn" href="https://prepsto.com/#f/dj4ujb9" target="_blank" rel="noopener" data-prepsto-open>Suggest an idea</a>';
+    return '<a class="link-btn" href="https://prepsto.com/#f/dj4ujb9" target="_blank" rel="noopener" data-prepsto-open>Submit feedback</a>';
   }
   function setting(act, icon, title, sub, danger) {
     return '<button class="setting ' + (danger ? 'danger' : '') + '" data-act="' + act + '"><span class="ic-wrap">' + ic(icon) + '</span><div class="sp"><div class="t">' + title + '</div><div class="s">' + sub + '</div></div></button>';
