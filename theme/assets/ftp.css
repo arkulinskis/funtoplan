@@ -803,6 +803,19 @@
 .land-demo-head { display: flex; align-items: center; gap: 12px; margin: 0 2px 18px; }
 .land-demo-head .b { font-family: var(--hand); font-size: 26px; line-height: 1; }
 .card.demo { cursor: default; }
+/* rolling cover: the headline's last line rolls; the card it talks about lights up at the same time */
+.land-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.land-roll { display: block; height: 1.05em; overflow: hidden; font-size: .78em; margin-top: .08em; }
+.land-roll > span { display: block; height: 1.05em; line-height: 1.05; white-space: nowrap; animation: land-roll 12s cubic-bezier(.7, 0, .3, 1) infinite; }
+@keyframes land-roll { 0%, 22% { transform: translateY(0); } 25%, 47% { transform: translateY(-100%); } 50%, 72% { transform: translateY(-200%); } 75%, 97% { transform: translateY(-300%); } 100% { transform: translateY(-400%); } }
+.land-demo .list > .card.demo { animation: land-hl 12s infinite; }
+.land-demo .list > .card.demo:nth-child(1) { animation-name: none; }
+.land-demo .list > .card.demo:nth-child(2) { animation-delay: 3s; }
+.land-demo .list > .card.demo:nth-child(3) { animation-delay: 6s; }
+.land-demo .list > .card.demo:nth-child(4) { animation-delay: 9s; }
+@keyframes land-hl { 0%, 1% { transform: rotate(var(--tilt)); box-shadow: var(--shadow-note); } 4%, 22% { transform: rotate(0) scale(1.04); box-shadow: 0 0 0 3px var(--ink), var(--shadow-note); } 25%, 100% { transform: rotate(var(--tilt)); box-shadow: var(--shadow-note); } }
+.land-gain { animation: land-gain 12s infinite; }
+@keyframes land-gain { 0%, 22% { transform: scale(1.06); } 25%, 100% { transform: none; } }
 .card.demo:hover { transform: rotate(var(--tilt)); box-shadow: var(--shadow-note); }
 .card.demo:active { transform: rotate(var(--tilt)); }
 .land-gain {
@@ -927,6 +940,7 @@
 @keyframes spin { to { transform: rotate(360deg); } }
 
 @media (prefers-reduced-motion: reduce) {
+  .land-roll > span, .land-demo .list > .card.demo, .land-gain { animation: none; }
   .ftp-app *, .ftp-app *::before, .ftp-app *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   /* keep the loading note moving, just slowly, so it still reads as "working" */
   .ftp-app .splash .big-logo .inner { animation: ftp-swing 3s ease-in-out infinite !important; }

@@ -544,7 +544,10 @@
       '<section class="land-hero">' +
       '<div class="land-copy">' +
       '<span class="pill pill-in">' + ic('family') + 'For families of 2 to 4</span>' +
-      '<h1 class="land-h1">The family to-do list that <span class="grad-text">feels like a game.</span></h1>' +
+      // rolling cover: the last line of the headline rolls (12 s loop) and the matching card on the demo board lights up with it
+      '<h1 class="land-h1">The family to-do list that <span class="land-sr">feels like a game.</span><span class="land-roll" aria-hidden="true">' +
+        ['feels like a game.', 'gets the car washed.', 'plans the picnic.', 'finds the gift ideas.', 'feels like a game.'].map(function (t) {
+          return '<span class="grad-text">' + t + '</span>'; }).join('') + '</span></h1>' +
       '<p class="land-lead">Fun To Plan puts chores, plans and wish lists on one shared board. Everyone can see what\'s going on, pitch in, and earn <b>brownie points</b> for getting things done.</p>' +
       '<div class="land-cta">' + cta + '</div>' +
       '<p class="small muted b">Works in the browser on phones and computers. No app store needed.</p>' +
