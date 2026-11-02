@@ -27,6 +27,15 @@ AUTH_ERRORS = {
 }
 
 
+def _google_step_done():
+  """After login_with_google() gave None: did the person finish the Google window (they just have no account yet)?"""
+  try:
+    import anvil.google.auth
+    return bool(anvil.google.auth.get_user_email())
+  except Exception:
+    return True  # can't tell: go on to sign-up, which asks Google again if needed
+
+
 class Form1(Form1Template):
   def __init__(self, **properties):
     super().__init__(**properties)
@@ -59,6 +68,13 @@ class Form1(Form1Template):
           if anvil.users.get_user() is None:
             anvil.users.login_with_email(email, password, remember=True)
           legal.refresh_soon()  # records the sign-up tick box
+          return self._api('bootstrap', '{}')
+        if action == 'google':
+          # Continue with Google: sign in, or create the account on the first visit.
+          if anvil.users.login_with_google(remember=True) is None:
+            if not _google_step_done() or anvil.users.signup_with_google(remember=True) is None:
+              return self._error('Google sign-in was cancelled.', 'auth_failed')
+          legal.refresh_soon()  # records the sign-up tick box, or reminds about the Privacy & Terms
           return self._api('bootstrap', '{}')
         if action == 'reset_password':
           anvil.users.send_password_reset_email(payload.get('email', '').strip())

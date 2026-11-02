@@ -57,6 +57,7 @@ theme/assets/            favicon.svg, logo.png (metadata.logo_img), apple-touch-
 
 ## Gotchas
 
+- **Continue with Google** (client_code/Form1 `bridge` ('google') + theme/assets/ftp.js renderAuth): `login_with_google()` returns None for someone without an account, so the code then calls `signup_with_google()`; on the sign-up view it needs the Privacy & Terms tick first. Needs `use_google` + the Google service in anvil.yaml.
 - The 4-person cap and membership checks live on the server; keep every rule there (the browser only sees its own family).
 - Password minimum here is 6 characters (Form1.bridge).
 - Theme.css is inlined by Anvil before the app loads; the spinner styles must stay there (see APP_MAKER/ANVIL_NOTES.md).
