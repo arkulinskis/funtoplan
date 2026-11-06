@@ -976,7 +976,8 @@
   }
   // "Submit feedback": the Prepsto feedback panel (widget.js in anvil.yaml head_html slides it in; plain link otherwise)
   function ideaLink() {
-    return '<a class="link-btn" href="https://prepsto.com/#f/dj4ujb9" target="_blank" rel="noopener" data-prepsto-open>Submit feedback</a>';
+    return '<a class="link-btn" href="https://prepsto.com/#f/dj4ujb9" target="_blank" rel="noopener" data-prepsto-open>Submit feedback</a>' +
+      ' <span class="ftp-org">Contact developer: <a href="https://arkvital.com" target="_blank" rel="noopener">arkvital.com</a> · Parent company: <a href="https://addanapp.com" target="_blank" rel="noopener">addanapp.com</a></span>';
   }
   function setting(act, icon, title, sub, danger) {
     return '<button class="setting ' + (danger ? 'danger' : '') + '" data-act="' + act + '"><span class="ic-wrap">' + ic(icon) + '</span><div class="sp"><div class="t">' + title + '</div><div class="s">' + sub + '</div></div></button>';
