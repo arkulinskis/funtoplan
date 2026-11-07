@@ -1,0 +1,43 @@
+<anvil-form layout="Fun_To_Plan.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="auth"><div class="auth-inner auth-wide">
+      <div class="auth-hero">
+        <div class="big-logo"><div class="inner"><i class="ic ic-family"></i></div></div>
+        <h1 class="auth-title">Welcome aboard!</h1>
+        <p class="auth-sub">Pick how the family will see you, then start a board or join one.</p>
+      </div>
+      <div class="notice" anvil:name="invited_note"><i class="ic ic-qr"></i><span>You are invited! Pick your name and avatar, then tap <b>Join family</b>.</span></div>
+      <div class="neu pad">
+        <anvil-component type="Fun_To_Plan.Components.ProfilePicker" name="picker"></anvil-component>
+      </div>
+      <div class="onboard-grid" anvil:name="grid">
+        <div class="neu pad form">
+          <div class="row"><span class="type t-task"><i class="ic ic-qr"></i></span><h2 class="section-title">Join a family</h2></div>
+          <p class="muted small b">Scan the QR code on a family member's phone, or type their 6-letter code.</p>
+          <anvil-component type="TextBox" name="code_box" prop:placeholder="ABC123" prop:role='["input", "code"]'></anvil-component>
+          <div class="preview-fam" anvil:name="preview">
+            <div class="stack"><anvil-component type="RepeatingPanel" name="preview_panel" prop:item_template="Fun_To_Plan.Items.Avatar" prop:role='["stack"]'></anvil-component></div>
+            <div class="b" anvil:dom-node="preview_name"></div><div class="small muted b" anvil:dom-node="preview_seats"></div>
+          </div>
+          <anvil-component type="Label" name="join_error" prop:role='["err"]' prop:visible="false"></anvil-component>
+          <div class="row">
+            <anvil-component type="Button" name="scan_button" prop:text="Scan" prop:role='["btn", "ic-camera"]'></anvil-component>
+            <anvil-component type="Button" name="join_button" prop:text="Join family" prop:role='["btn", "btn-dark", "btn-block", "sp"]'></anvil-component>
+          </div>
+        </div>
+        <div class="neu pad form" anvil:name="create_card">
+          <div class="row"><span class="type t-event"><i class="ic ic-plus"></i></span><h2 class="section-title">Start a new family board</h2></div>
+          <p class="muted small b">You'll get a QR code to invite up to 3 more people.</p>
+          <label class="field"><span class="label">Family name</span>
+            <anvil-component type="TextBox" name="family_box" prop:placeholder="The Smiths" prop:role='["input"]'></anvil-component>
+          </label>
+          <div class="switch-row"><div class="sp"><div class="t">Add starter cards</div><div class="s">A few examples to show how it works</div></div>
+            <button type="button" class="toggle on" role="switch" aria-checked="true" aria-label="Add starter cards" anvil:name="seed_toggle" anvil:on-dom:click="self.seed_click"></button></div>
+          <anvil-component type="Label" name="create_error" prop:role='["err"]' prop:visible="false"></anvil-component>
+          <anvil-component type="Button" name="create_button" prop:text="Create board" prop:role='["btn", "btn-blue", "btn-block", "btn-lg", "ic-sparkle"]'></anvil-component>
+        </div>
+      </div>
+      <p class="center small muted b"><span anvil:dom-node="signed_as"></span> · <anvil-component type="Button" name="logout_button" prop:text="Log out" prop:role='["link-btn"]'></anvil-component></p>
+    </div></div>
+  </anvil-block>
+</anvil-form>

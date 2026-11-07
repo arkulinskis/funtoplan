@@ -1,0 +1,16 @@
+<anvil-form layout="Fun_To_Plan.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="chat-wrap">
+      <div class="page-head"><div class="sp"><h1 class="page-title">Family chat</h1><div class="page-sub" anvil:dom-node="fam_name"></div></div>
+        <anvil-component type="RepeatingPanel" name="family_stack" prop:item_template="Fun_To_Plan.Items.Avatar" prop:role='["stack"]'></anvil-component></div>
+      <div class="chat-list" aria-live="polite">
+        <div class="empty" anvil:name="chat_empty"><span class="big">💬</span>Say hi to the family!</div>
+        <anvil-component type="RepeatingPanel" name="chat_panel" prop:item_template="Fun_To_Plan.Items.ChatRow" prop:role='["chat"]'></anvil-component>
+      </div>
+      <div class="composer">
+        <anvil-component type="TextArea" name="text_box" prop:placeholder="Message the family…" prop:role='["textarea"]'></anvil-component>
+        <anvil-component type="Button" name="send_button" prop:text="Send" prop:role='["send", "ic-send"]'></anvil-component>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

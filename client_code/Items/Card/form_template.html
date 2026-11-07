@@ -1,0 +1,29 @@
+<div class="card-host">
+  <div class="card" anvil:name="card">
+    <button type="button" class="card-open" anvil:name="open" anvil:on-dom:click="self.open_click"></button>
+    <div class="card-top">
+      <span class="type" anvil:name="type_chip"><i class="ic" anvil:name="type_ic"></i></span>
+      <span class="key" anvil:dom-node="key"></span>
+      <span class="prio" anvil:name="prio"><i class="ic" anvil:name="prio_ic"></i></span>
+      <span class="sp"></span>
+      <span class="status" anvil:name="status"><i></i><span anvil:dom-node="status_text"></span></span>
+      <span class="pill bp" anvil:name="pts"><svg class="brownie" viewBox="0 0 24 24" aria-hidden="true"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/><circle class="b-dot" cx="8" cy="15.5" r="1"/><circle class="b-dot" cx="13.5" cy="17" r="1"/><circle class="b-dot" cx="16.5" cy="14.2" r=".9"/></svg><span anvil:dom-node="pts_text"></span></span>
+    </div>
+    <div class="card-title" anvil:dom-node="title"></div>
+    <div class="card-meta">
+      <span class="meta" anvil:name="m_due"><i class="ic" anvil:name="due_ic"></i><span anvil:dom-node="due_text"></span></span>
+      <span class="meta" anvil:name="m_place"><i class="ic ic-pin"></i><span anvil:dom-node="place_text"></span></span>
+      <span class="meta" anvil:name="m_repeat"><i class="ic ic-repeat"></i><span anvil:dom-node="repeat_text"></span></span>
+      <span class="meta" anvil:name="m_approval" title="Needs approval"><i class="ic ic-shield"></i><span class="ui-sr">Needs approval</span></span>
+      <span class="meta" anvil:name="m_link"><i class="ic ic-link"></i><span class="ui-sr">Has a link</span></span>
+      <span class="meta" anvil:name="m_comments"><i class="ic ic-msg"></i><span anvil:dom-node="comments_text"></span></span>
+      <span class="meta" anvil:name="m_acks"><i class="ic" anvil:name="acks_ic"></i><span anvil:dom-node="acks_text"></span></span>
+      <span class="sp"></span>
+      <span class="avatar xs" anvil:dom-node="who"></span>
+      <span class="open-slot" anvil:name="open_slot">open</span>
+      <span class="cta" anvil:name="cta_box">
+        <anvil-component type="Button" name="cta" prop:text="Done" prop:role='["btn", "btn-sm"]'></anvil-component>
+      </span>
+    </div>
+  </div>
+</div>

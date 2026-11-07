@@ -1,0 +1,22 @@
+<div class="ftp-dlg">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><h2 class="sheet-title">Family settings</h2><span class="sp"></span>
+    <anvil-component type="Button" name="close_button" prop:text="Close" prop:role='["icon-btn", "ic-close"]'></anvil-component></div>
+  <div class="sheet-body">
+    <div class="form">
+      <label class="field"><span class="label">Family name</span>
+        <anvil-component type="TextBox" name="name_box" prop:role='["input"]'></anvil-component>
+      </label>
+      <div class="field"><span class="label">Weekly brownie goal (whole family)</span>
+        <div class="stepper">
+          <anvil-component type="Button" name="less_button" prop:text="Less" prop:role='["icon-btn", "ic-minus"]'></anvil-component>
+          <div class="val" aria-live="polite"><svg class="brownie" viewBox="0 0 24 24" aria-hidden="true"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/></svg><span anvil:dom-node="goal"></span></div>
+          <anvil-component type="Button" name="more_button" prop:text="More" prop:role='["icon-btn", "ic-plus"]'></anvil-component>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sheet-foot">
+    <anvil-component type="Button" name="save_button" prop:text="Save" prop:role='["btn", "btn-dark", "btn-lg", "sp", "ic-check"]'></anvil-component>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="ftp-dlg">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><h2 class="sheet-title" anvil:dom-node="title"></h2><span class="sp"></span>
+    <anvil-component type="Button" name="close_button" prop:text="Close" prop:role='["icon-btn", "ic-close"]'></anvil-component></div>
+  <div class="sheet-body">
+    <div class="col" style="align-items:center;gap:18px;padding-bottom:6px">
+      <div class="qr-frame big" anvil:dom-node="qr"></div>
+      <div class="empty" anvil:name="no_qr">QR codes need an internet connection. Use the code below.</div>
+      <div class="code-tiles" role="img" anvil:dom-node="tiles"><span anvil:dom-node="t0"></span><span anvil:dom-node="t1"></span><span anvil:dom-node="t2"></span><span anvil:dom-node="t3"></span><span anvil:dom-node="t4"></span><span anvil:dom-node="t5"></span></div>
+      <p class="center small muted b" style="max-width:320px">Open the phone camera and point it at the code, or type the code on the “Join a family” screen.</p>
+    </div>
+  </div>
+  <div class="sheet-foot">
+    <anvil-component type="Button" name="copy_button" prop:text="Copy link" prop:role='["btn", "sp", "ic-copy"]'></anvil-component>
+    <anvil-component type="Button" name="share_button" prop:text="Share" prop:role='["btn", "btn-dark", "sp", "ic-share"]'></anvil-component>
+  </div>
+</div>

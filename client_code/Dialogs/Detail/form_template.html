@@ -1,0 +1,59 @@
+<div class="ftp-dlg">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head">
+    <span class="type" anvil:name="type_chip"><i class="ic" anvil:name="type_ic"></i></span>
+    <span class="key" anvil:dom-node="key"></span>
+    <span class="status" anvil:name="status"><i></i><span anvil:dom-node="status_text"></span></span>
+    <span class="sp"></span>
+    <anvil-component type="Button" name="edit_button" prop:text="Edit" prop:role='["icon-btn", "ic-edit"]'></anvil-component>
+    <anvil-component type="Button" name="close_button" prop:text="Close" prop:role='["icon-btn", "ic-close"]'></anvil-component>
+  </div>
+  <div class="sheet-body">
+    <h2 class="d-title" anvil:dom-node="title"></h2>
+    <div class="d-notes" anvil:dom-node="notes"></div>
+    <div class="d-badges">
+      <span class="pill bp" anvil:name="b_points"><svg class="brownie" viewBox="0 0 24 24" aria-hidden="true"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/></svg><span anvil:dom-node="points"></span></span>
+      <span class="pill" anvil:name="b_prio"><i class="ic" anvil:name="prio_ic"></i><span anvil:dom-node="prio"></span></span>
+      <span class="pill" anvil:name="b_recur"><i class="ic ic-repeat"></i><span anvil:dom-node="recur"></span></span>
+      <span class="pill pill-in" anvil:name="b_series"><i class="ic ic-trophy"></i><span anvil:dom-node="series"></span></span>
+      <span class="pill" anvil:name="b_approval"><i class="ic ic-shield"></i>needs approval</span>
+    </div>
+    <div class="d-meta">
+      <div class="d-meta-row" anvil:name="r1"><span class="k" anvil:dom-node="k1"></span><span class="v"><span class="avatar xs" anvil:dom-node="a1"></span><span anvil:dom-node="v1"></span></span></div>
+      <div class="d-meta-row" anvil:name="r2"><span class="k" anvil:dom-node="k2"></span><span class="v"><span class="avatar xs" anvil:dom-node="a2"></span><span anvil:dom-node="v2"></span></span></div>
+      <div class="d-meta-row" anvil:name="r3"><span class="k" anvil:dom-node="k3"></span><span class="v"><span class="avatar xs" anvil:dom-node="a3"></span><span anvil:dom-node="v3"></span></span></div>
+      <div class="d-meta-row" anvil:name="r_link"><span class="k">Link</span><span class="v"><a target="_blank" rel="noopener" anvil:dom-node="link"></a></span></div>
+      <div class="d-meta-row"><span class="k">Created</span><span class="v"><span class="avatar xs" anvil:dom-node="a_created"></span><span anvil:dom-node="v_created"></span><span class="muted small" anvil:dom-node="created_ago"></span></span></div>
+      <div class="d-meta-row" anvil:name="r_done"><span class="k" anvil:dom-node="k_done"></span><span class="v"><span class="avatar xs" anvil:dom-node="a_done"></span><span anvil:dom-node="v_done"></span><span class="muted small" anvil:dom-node="done_ago"></span></span></div>
+      <div class="d-meta-row" anvil:name="r_appr"><span class="k">Approved</span><span class="v"><span class="avatar xs" anvil:dom-node="a_appr"></span><span anvil:dom-node="v_appr"></span></span></div>
+    </div>
+    <div class="ack-row">
+      <div class="sp"><div class="label" style="padding:0" anvil:dom-node="ack_word"></div>
+        <div class="row" style="margin-top:6px"><anvil-component type="RepeatingPanel" name="ack_panel" prop:item_template="Fun_To_Plan.Items.Avatar" prop:role='["stack"]'></anvil-component>
+          <span class="small muted b" anvil:name="ack_none">Nobody yet</span></div></div>
+      <anvil-component type="Button" name="ack_button" prop:text="Got it" prop:role='["btn", "btn-sm", "btn-blue", "ic-thumb"]'></anvil-component>
+    </div>
+    <div class="d-actions">
+      <anvil-component type="Button" name="a_claim" prop:text="Claim" prop:role='["btn", "ic-hand"]'></anvil-component>
+      <anvil-component type="Button" name="a_start" prop:text="Start" prop:role='["btn", "ic-play"]'></anvil-component>
+      <anvil-component type="Button" name="a_unstart" prop:text="Back to to-do" prop:role='["btn", "ic-undo"]'></anvil-component>
+      <anvil-component type="Button" name="a_reject" prop:text="Send back" prop:role='["btn", "ic-undo"]'></anvil-component>
+      <div class="waiting" anvil:name="waiting"><i class="ic ic-clock"></i>Waiting for someone else to approve…</div>
+      <anvil-component type="Button" name="a_reopen" prop:text="Reopen" prop:role='["btn", "ic-undo"]'></anvil-component>
+      <anvil-component type="Button" name="a_complete" prop:text="Mark done" prop:role='["btn", "btn-dark", "ic-check"]'></anvil-component>
+      <anvil-component type="Button" name="a_approve" prop:text="Approve" prop:role='["btn", "btn-dark", "ic-shield"]'></anvil-component>
+    </div>
+    <section class="section" style="margin-top:22px">
+      <div class="section-head"><h3 class="section-title">Comments</h3><span class="count" anvil:dom-node="comment_count"></span></div>
+      <div class="comments">
+        <div class="small muted b" style="padding:8px 4px" anvil:name="comments_wait"><span class="spin" aria-hidden="true"></span><span class="ui-sr">Loading comments</span></div>
+        <div class="small muted b" style="padding:4px" anvil:name="comments_none">No comments yet.</div>
+        <anvil-component type="RepeatingPanel" name="comment_panel" prop:item_template="Fun_To_Plan.Items.Comment" prop:role='["comments"]'></anvil-component>
+      </div>
+    </section>
+  </div>
+  <div class="sheet-foot">
+    <anvil-component type="TextBox" name="comment_box" prop:placeholder="Add a comment…" prop:role='["input"]'></anvil-component>
+    <anvil-component type="Button" name="send_button" prop:text="Post comment" prop:role='["send", "ic-send"]'></anvil-component>
+  </div>
+</div>
