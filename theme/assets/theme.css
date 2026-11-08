@@ -1,7 +1,7 @@
 /* ==========================================================================
    Fun To Plan - Anvil theme stylesheet
    Anvil puts this file straight into the page <head>, so it applies before
-   Anvil's startup spinner is drawn. Everything else lives in ftp.css.
+   Anvil's startup spinner is drawn. Everything else lives in app.css.
    ========================================================================== */
 
 /* --------------------------------------------------------------- loading mark
@@ -10,15 +10,16 @@
    centre, so the hand-off from one to the other doesn't jump. */
 @keyframes ftp-swing { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
 
-html[data-ftp-theme="night"], html[data-ftp-theme="night"] body { background: #1e2126; }
+html.ui-dark, html.ui-dark body { background: #1e2126; }
 
 html .anvil-spinner {
   --anvil-spinner-size: 96px;
-  --anvil-spinner-bg: #f1ede4;
+  --anvil-spinner-bg: transparent;
   width: 96px; height: 96px; top: calc(50% - 48px); left: calc(50% - 48px);
-  border-radius: 0; background-image: none; color: transparent; box-shadow: none;
+  /* no tile behind the note: transparent all round, so it floats over the fridge, a card or a sheet */
+  border-radius: 0; background: transparent !important; background-image: none !important; border: 0 !important;
+  outline: 0; color: transparent; box-shadow: none !important;
 }
-html[data-ftp-theme="night"] .anvil-spinner { --anvil-spinner-bg: #1e2126; }
 html .anvil-spinner .anvil-spinner-svg { display: none; }
 /* the note */
 html .anvil-spinner::after {

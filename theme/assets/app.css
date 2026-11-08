@@ -190,7 +190,7 @@ td, th, time, output, progress, .num, .tabular, [data-num] { font-variant-numeri
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
-.ui-dark {
+.ui-dark .ftp-app {
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 28%, rgba(255, 255, 255, 0) 72%, rgba(255, 255, 255, 0.02)),
     var(--fridge);
