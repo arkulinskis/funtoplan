@@ -439,7 +439,7 @@ native_deps:
     })();
     </script>
     <link rel="stylesheet" href="_/theme/icons.css?v=d84ed56077">
-    <link rel="stylesheet" href="_/theme/app.css?v=31375b5457">
+    <link rel="stylesheet" href="_/theme/app.css?v=d790e9a305">
     <script src="_/theme/app-kit.js?v=ceed60884b"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <script src="_/theme/ftp-fx.js?v=34f3298721"></script>
