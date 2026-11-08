@@ -1,0 +1,119 @@
+<anvil-form layout="Fun_To_Plan.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="land"><div class="land-inner">
+      <header class="land-nav">
+        <a class="brand-logo" href="#landing" aria-label="Fun To Plan home"><i class="ic ic-check"></i></a><div class="brand-name">Fun To Plan</div><span class="sp"></span>
+        <anvil-component type="Button" name="theme_button" prop:text="Switch light or night mode" prop:role='["icon-btn", "ic-moon"]'></anvil-component>
+        <a class="btn btn-sm" href="#auth" anvil:name="nav_login">Log in</a>
+        <a class="btn btn-sm btn-dark" href="#home" anvil:name="nav_open">Open my board</a>
+      </header>
+
+      <div class="notice" anvil:name="invited_note"><i class="ic ic-qr"></i><span>You've been invited to a family board! Have a look around, then create an account (or log in) to join.</span></div>
+
+      <section class="land-hero">
+        <div class="land-copy">
+          <span class="pill pill-in"><i class="ic ic-family"></i>For families of 2 to 4</span>
+          <h1 class="land-h1">The family to-do list that <span class="land-sr">feels like a game.</span><span class="land-roll" aria-hidden="true"><span class="grad-text">feels like a game.</span><span class="grad-text">gets the car washed.</span><span class="grad-text">plans the picnic.</span><span class="grad-text">finds the gift ideas.</span><span class="grad-text">feels like a game.</span></span></h1>
+          <p class="land-lead">Fun To Plan puts chores, plans and wish lists on one shared board. Everyone can see what's going on, pitch in, and earn <b>brownie points</b> for getting things done.</p>
+          <div class="land-cta">
+            <a class="btn btn-dark btn-lg" href="#auth/signup" anvil:dom-node="cta_main">Get started <i class="ic ic-arrow"></i></a>
+            <a class="btn btn-lg" href="#auth">I have an account</a>
+          </div>
+          <p class="small muted b">Works in the browser on phones and computers. No app store needed.</p>
+        </div>
+        <div class="land-demo neu" aria-label="An example family board">
+          <div class="land-demo-head"><div><div class="b">The Rivera family</div></div><span class="sp"></span>
+            <div class="stack"><span class="avatar sm" style="--c:#f07c2a">🦊</span><span class="avatar sm" style="--c:#e0559a">🐻</span><span class="avatar sm" style="--c:#e5484d">🐼</span><span class="avatar sm" style="--c:#f2b51d">🦄</span></div></div>
+          <div class="list" aria-hidden="true">
+            <div class="card demo k-task"><div class="card-top"><span class="type t-task"><i class="ic ic-check"></i></span><span class="key">FAM-12</span><span class="sp"></span><span class="pill bp"><svg class="brownie" viewBox="0 0 24 24"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/></svg>10</span></div><div class="card-title">Take out the recycling</div><div class="card-meta"><span class="meta"><i class="ic ic-clock"></i>Tue</span><span class="meta"><i class="ic ic-repeat"></i>turns</span><span class="sp"></span><span class="avatar xs" style="--c:#e5484d">🐼</span></div></div>
+            <div class="card demo k-task"><div class="card-top"><span class="type t-task"><i class="ic ic-check"></i></span><span class="key">FAM-14</span><span class="sp"></span><span class="pill bp"><svg class="brownie" viewBox="0 0 24 24"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/></svg>25</span></div><div class="card-title">Wash the car</div><div class="card-meta"><span class="meta"><i class="ic ic-clock"></i>Sat</span><span class="meta"><i class="ic ic-shield"></i></span><span class="sp"></span><span class="open-slot">open</span></div></div>
+            <div class="card demo k-event"><div class="card-top"><span class="type t-event"><i class="ic ic-calendar"></i></span><span class="key">FAM-15</span><span class="sp"></span></div><div class="card-title">Picnic at the park</div><div class="card-meta"><span class="meta"><i class="ic ic-calendar"></i>Sun · 12:00</span><span class="meta"><i class="ic ic-eye"></i>3</span><span class="sp"></span><span class="avatar xs" style="--c:#f07c2a">🦊</span></div></div>
+            <div class="card demo k-want"><div class="card-top"><span class="type t-want"><i class="ic ic-starf"></i></span><span class="key">FAM-18</span><span class="sp"></span></div><div class="card-title">New board game for game night</div><div class="card-meta"><span class="meta"><i class="ic ic-link"></i></span><span class="meta"><i class="ic ic-thumb"></i>4</span><span class="sp"></span><span class="avatar xs" style="--c:#f2b51d">🦄</span></div></div>
+          </div>
+          <div class="land-gain" aria-hidden="true"><svg class="brownie" viewBox="0 0 24 24"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/></svg>+10 for Alex</div>
+        </div>
+      </section>
+
+      <section class="land-sec ytf" id="watch">
+        <div class="ytf-in">
+          <div class="ytf-copy">
+            <h2 class="land-h2">See Fun To Plan in about a minute</h2>
+            <p>A short video tour of what Fun To Plan does and how it works.</p>
+            <a class="ytf-link" href="https://www.youtube.com/watch?v=qWP3bxxPTWE" target="_blank" rel="noopener"><svg viewBox="0 0 28 20" width="20" height="14" aria-hidden="true"><rect width="28" height="20" rx="5" fill="#FF0033"/><path d="M11.2 5.8v8.4l7.3-4.2z" fill="#fff"/></svg> Watch on YouTube &#8599;</a>
+          </div>
+          <div>
+            <div class="ytf-frame" anvil:dom-node="yt_frame">
+              <button type="button" class="ytf-cover" anvil:dom-node="yt_cover" aria-label="Play the Fun To Plan video (1:11)">
+                <img src="_/theme/yt-cover.jpg" alt="" loading="lazy" decoding="async" width="960" height="540">
+                <span class="ytf-play" aria-hidden="true"><svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.3.3 34 .3 34 .3s-21.3 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6c5.2 1.4 26.5 1.4 26.5 1.4s21.3 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#FF0033"/><path d="M45 24 27 14v20z" fill="#fff"/></svg></span>
+                <span class="ytf-len">1:11</span>
+              </button>
+            </div>
+            <p class="ytf-note">The video loads from YouTube when you press play.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="land-sec"><h2 class="land-h2">Up and running in three steps</h2>
+        <ol class="land-steps">
+          <li class="neu pad"><span class="land-num">1</span><div class="b">Start a family board</div><p class="land-p">Make an account, name your board and pick an avatar. It takes about a minute.</p></li>
+          <li class="neu pad"><span class="land-num">2</span><div class="b">Invite your people</div><p class="land-p">Everyone else scans the board's QR code or types its 6-letter code. Up to 4 people per board.</p></li>
+          <li class="neu pad"><span class="land-num">3</span><div class="b">Plan, pitch in, earn</div><p class="land-p">Add tasks, events and wants. Finish tasks to earn brownie points and level up.</p></li>
+        </ol>
+      </section>
+
+      <section class="land-sec"><h2 class="land-h2">One board, three kinds of cards</h2>
+        <div class="land-grid3">
+          <div class="neu pad land-kind"><div class="row"><span class="type t-task"><i class="ic ic-check"></i></span><h3 class="section-title">Tasks</h3></div><p class="land-p">Chores and to-dos. Give one to someone or leave it open, set a due date and priority, and add brownie points as a reward.</p></div>
+          <div class="neu pad land-kind"><div class="row"><span class="type t-event"><i class="ic ic-calendar"></i></span><h3 class="section-title">Events</h3></div><p class="land-p">Plans with a date, time and place. Everyone taps “I'm in” so you know who's coming.</p></div>
+          <div class="neu pad land-kind"><div class="row"><span class="type t-want"><i class="ic ic-starf"></i></span><h3 class="section-title">Wants</h3></div><p class="land-p">Wishes for the family or for one person, with an optional link. Others can +1 the ones they like too.</p></div>
+        </div>
+        <p class="land-p muted center">Each card gets a short key like <span class="key">FAM-12</span>, so it's easy to talk about in chat.</p>
+      </section>
+
+      <section class="land-sec"><h2 class="land-h2">Small touches that keep everyone on the same page</h2>
+        <div class="land-feats">
+          <div class="land-feat"><span class="land-ic"><i class="ic ic-hand"></i></span><div><h3 class="b">Bounties anyone can claim</h3><p class="land-p">Put points on a task and leave it open. Whoever claims it and finishes it gets the points.</p></div></div>
+          <div class="land-feat"><span class="land-ic"><i class="ic ic-shield"></i></span><div><h3 class="b">Optional approval</h3><p class="land-p">Mark a task as needing a check. When it's done, someone else approves it before the points are paid.</p></div></div>
+          <div class="land-feat"><span class="land-ic"><i class="ic ic-repeat"></i></span><div><h3 class="b">Repeating tasks and turns</h3><p class="land-p">Repeat daily, on weekdays, weekly, every 2 weeks or monthly. Turn on “Take turns” to pass the job around.</p></div></div>
+          <div class="land-feat"><span class="land-ic"><i class="ic ic-board"></i></span><div><h3 class="b">A board for the whole family</h3><p class="land-p">Cards move from To do to In progress, Review and Done. Filter by type, your own cards, or open bounties.</p></div></div>
+          <div class="land-feat"><span class="land-ic"><i class="ic ic-chat"></i></span><div><h3 class="b">Family chat</h3><p class="land-p">Chat together and see a feed of what got done. Type FAM-12 to link a card. Every card has its own comments too.</p></div></div>
+          <div class="land-feat"><span class="land-ic"><i class="ic ic-eye"></i></span><div><h3 class="b">See who's seen it</h3><p class="land-p">Every card shows who has read it, who's coming, or who +1'd it. No more “I didn't know”.</p></div></div>
+          <div class="land-feat"><span class="land-ic"><i class="ic ic-trophy"></i></span><div><h3 class="b">Levels and a podium</h3><p class="land-p">Climb from Rookie to Mythic, chase a weekly family goal, and see who's on top this week.</p></div></div>
+          <div class="land-feat"><span class="land-ic"><i class="ic ic-device"></i></span><div><h3 class="b">Phone, computer, day or night</h3><p class="land-p">Made for phones first, with a wider board on computers and a dark night mode for evenings.</p></div></div>
+        </div>
+      </section>
+
+      <section class="land-sec"><div class="neu pad land-points">
+        <div class="land-points-head"><svg class="brownie land-brownie" viewBox="0 0 24 24" aria-hidden="true"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/><circle class="b-dot" cx="8" cy="15.5" r="1"/><circle class="b-dot" cx="13.5" cy="17" r="1"/><circle class="b-dot" cx="16.5" cy="14.2" r=".9"/></svg>
+          <h2 class="land-h2">Brownie points: why the chores actually get done</h2></div>
+        <ul class="land-list">
+          <li>Add points to a task. Whoever finishes it earns them.</li>
+          <li>If a task needs approval, the points are paid once someone else says it's done.</li>
+          <li>Points add up to levels, a weekly family goal, and a podium for the week and for all time.</li>
+          <li>Reopen a finished card and its points are taken back, so the score stays fair.</li>
+        </ul>
+        <div class="land-levels"><span class="pill">Rookie <span class="muted">0</span></span><span class="pill">Helper <span class="muted">30</span></span><span class="pill">Sidekick <span class="muted">80</span></span><span class="pill">Teammate <span class="muted">150</span></span><span class="pill">Ace <span class="muted">250</span></span><span class="pill">Hero <span class="muted">400</span></span><span class="pill">Champion <span class="muted">600</span></span><span class="pill">Captain <span class="muted">850</span></span><span class="pill">Legend <span class="muted">1150</span></span><span class="pill">Mythic <span class="muted">1500</span></span></div>
+      </div></section>
+
+      <section class="land-sec"><h2 class="land-h2">Good to know</h2>
+        <div class="land-faq">
+          <details class="neu"><summary>Who is it for?<i class="ic ic-down"></i></summary><p class="land-p">Households of 2 to 4 people: parents and kids, couples, or roommates. Each board holds up to 4 people.</p></details>
+          <details class="neu"><summary>Does everyone need to install an app?<i class="ic ic-down"></i></summary><p class="land-p">No. Fun To Plan runs in the web browser on phones and computers. Each person makes their own account and joins with the board's code.</p></details>
+          <details class="neu"><summary>Who can see our board?<i class="ic ic-down"></i></summary><p class="land-p">Only the people on your board. Every change goes through the server, which checks that you belong to the family first.</p></details>
+          <details class="neu"><summary>How do we get started without a blank board?<i class="ic ic-down"></i></summary><p class="land-p">When you create a board you can add a few starter cards that show how things work. Delete them whenever you like.</p></details>
+          <details class="neu"><summary>What if someone leaves?<i class="ic ic-down"></i></summary><p class="land-p">Anyone can leave a board and rejoin later with the code, and they keep their brownie points. The person who made the board can also remove members.</p></details>
+        </div>
+      </section>
+
+      <section class="land-sec"><div class="land-final">
+        <h2 class="land-h2" anvil:dom-node="final_h">Ready to make chores a bit more fun?</h2>
+        <p class="land-p" anvil:dom-node="final_p">Start a board, invite your family, and hand out the first brownie points today.</p>
+        <div class="land-cta center-cta">
+          <a class="btn btn-dark btn-lg" href="#auth/signup" anvil:dom-node="cta_final">Get started <i class="ic ic-arrow"></i></a>
+          <a class="btn btn-lg" href="#auth">I have an account</a>
+        </div>
+      </div></section>
+    </div></div>
+  </anvil-block>
+</anvil-form>

@@ -1,0 +1,89 @@
+<div class="ftp-dlg">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><h2 class="sheet-title" anvil:dom-node="title"></h2><span class="sp"></span>
+    <anvil-component type="Button" name="close_button" prop:text="Close" prop:role='["icon-btn", "ic-close"]'></anvil-component></div>
+  <div class="sheet-body">
+    <div class="form">
+      <div class="seg dark" role="group" aria-label="Kind of card">
+        <button type="button" data-k="kind" data-v="task" anvil:name="k_task" anvil:on-dom:click="self.set_click"><i class="ic ic-check ic-sm"></i>Task</button>
+        <button type="button" data-k="kind" data-v="event" anvil:name="k_event" anvil:on-dom:click="self.set_click"><i class="ic ic-calendar ic-sm"></i>Event</button>
+        <button type="button" data-k="kind" data-v="want" anvil:name="k_want" anvil:on-dom:click="self.set_click"><i class="ic ic-star ic-sm"></i>Want</button>
+      </div>
+      <label class="field"><span class="label">Title</span>
+        <anvil-component type="TextBox" name="title_box" prop:role='["input"]'></anvil-component></label>
+      <label class="field"><span class="label">Notes</span>
+        <anvil-component type="TextArea" name="notes_box" prop:placeholder="Details, links, who to ask…" prop:role='["textarea"]'></anvil-component></label>
+
+      <div class="field"><span class="label" anvil:dom-node="who_label">Who's on it</span>
+        <anvil-component type="RepeatingPanel" name="who_panel" prop:item_template="Fun_To_Plan.Items.Choice" prop:role='["pick"]'></anvil-component></div>
+
+      <div class="form" anvil:name="task_part">
+        <div class="field"><span class="label">Due</span>
+          <anvil-component type="TextBox" name="due_box" prop:role='["input"]'></anvil-component>
+          <div class="quick">
+            <button type="button" class="chip" data-k="due" data-v="today" anvil:name="d_today" anvil:on-dom:click="self.set_click">Today</button>
+            <button type="button" class="chip" data-k="due" data-v="tomorrow" anvil:name="d_tomorrow" anvil:on-dom:click="self.set_click">Tomorrow</button>
+            <button type="button" class="chip" data-k="due" data-v="weekend" anvil:name="d_weekend" anvil:on-dom:click="self.set_click">Weekend</button>
+            <button type="button" class="chip" data-k="due" data-v="none" anvil:name="d_none" anvil:on-dom:click="self.set_click">No date</button>
+          </div></div>
+        <div class="field"><span class="label">Priority</span>
+          <div class="seg" role="group" aria-label="Priority">
+            <button type="button" data-k="priority" data-v="low" anvil:name="p_low" anvil:on-dom:click="self.set_click">Low</button>
+            <button type="button" data-k="priority" data-v="normal" anvil:name="p_normal" anvil:on-dom:click="self.set_click">Normal</button>
+            <button type="button" data-k="priority" data-v="high" anvil:name="p_high" anvil:on-dom:click="self.set_click">High</button>
+          </div></div>
+        <div class="field"><span class="label">Bounty · brownie points</span>
+          <div class="stepper">
+            <anvil-component type="Button" name="less_button" prop:text="Less" prop:role='["icon-btn", "ic-minus"]'></anvil-component>
+            <div class="val" aria-live="polite"><svg class="brownie" viewBox="0 0 24 24" aria-hidden="true"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/></svg><span anvil:dom-node="points"></span></div>
+            <anvil-component type="Button" name="more_button" prop:text="More" prop:role='["icon-btn", "ic-plus"]'></anvil-component><span class="sp"></span>
+          </div>
+          <div class="quick">
+            <button type="button" class="chip" data-k="points" data-v="0" anvil:name="pt_0" anvil:on-dom:click="self.set_click">None</button>
+            <button type="button" class="chip" data-k="points" data-v="5" anvil:name="pt_5" anvil:on-dom:click="self.set_click">5</button>
+            <button type="button" class="chip" data-k="points" data-v="10" anvil:name="pt_10" anvil:on-dom:click="self.set_click">10</button>
+            <button type="button" class="chip" data-k="points" data-v="20" anvil:name="pt_20" anvil:on-dom:click="self.set_click">20</button>
+            <button type="button" class="chip" data-k="points" data-v="50" anvil:name="pt_50" anvil:on-dom:click="self.set_click">50</button>
+          </div></div>
+        <div class="field"><span class="label">Repeat</span>
+          <div class="chips" style="padding-top:2px" role="group" aria-label="Repeat">
+            <button type="button" class="chip" data-k="recurrence" data-v="none" anvil:name="r_none" anvil:on-dom:click="self.set_click">Never</button>
+            <button type="button" class="chip" data-k="recurrence" data-v="daily" anvil:name="r_daily" anvil:on-dom:click="self.set_click"><i class="ic ic-repeat ic-sm"></i>Daily</button>
+            <button type="button" class="chip" data-k="recurrence" data-v="weekdays" anvil:name="r_weekdays" anvil:on-dom:click="self.set_click"><i class="ic ic-repeat ic-sm"></i>Weekdays</button>
+            <button type="button" class="chip" data-k="recurrence" data-v="weekly" anvil:name="r_weekly" anvil:on-dom:click="self.set_click"><i class="ic ic-repeat ic-sm"></i>Weekly</button>
+            <button type="button" class="chip" data-k="recurrence" data-v="biweekly" anvil:name="r_biweekly" anvil:on-dom:click="self.set_click"><i class="ic ic-repeat ic-sm"></i>Every 2 weeks</button>
+            <button type="button" class="chip" data-k="recurrence" data-v="monthly" anvil:name="r_monthly" anvil:on-dom:click="self.set_click"><i class="ic ic-repeat ic-sm"></i>Monthly</button>
+          </div></div>
+        <div class="switch-row" anvil:name="rotate_row"><div class="sp"><div class="t" id="ed-rot">Take turns</div><div class="s">Each repeat goes to the next family member</div></div>
+          <button type="button" class="toggle" role="switch" aria-labelledby="ed-rot" data-k="rotate" anvil:name="rotate_toggle" anvil:on-dom:click="self.flip_click"></button></div>
+        <div class="switch-row"><div class="sp"><div class="t" id="ed-appr">Needs approval</div><div class="s">Someone else confirms it's done before brownie points are paid</div></div>
+          <button type="button" class="toggle" role="switch" aria-labelledby="ed-appr" data-k="requires_approval" anvil:name="approval_toggle" anvil:on-dom:click="self.flip_click"></button></div>
+      </div>
+
+      <div class="form" anvil:name="event_part">
+        <div class="form-row">
+          <label class="field"><span class="label">Date</span><anvil-component type="TextBox" name="date_box" prop:role='["input"]'></anvil-component></label>
+          <label class="field"><span class="label">Time</span><anvil-component type="TextBox" name="time_box" prop:role='["input"]'></anvil-component></label>
+        </div>
+        <label class="field"><span class="label">Where</span>
+          <anvil-component type="TextBox" name="place_box" prop:placeholder="Home, school, the park…" prop:role='["input"]'></anvil-component></label>
+        <div class="small muted b" style="padding-left:4px">Everyone can tap “I'm in” to acknowledge.</div>
+      </div>
+
+      <div class="form" anvil:name="want_part">
+        <label class="field"><span class="label">Link</span>
+          <anvil-component type="TextBox" name="link_box" prop:placeholder="https://… (optional)" prop:role='["input"]'></anvil-component></label>
+        <div class="field"><span class="label">How much</span>
+          <div class="seg" role="group" aria-label="How much">
+            <button type="button" data-k="priority" data-v="low" anvil:name="w_low" anvil:on-dom:click="self.set_click">Nice to have</button>
+            <button type="button" data-k="priority" data-v="normal" anvil:name="w_normal" anvil:on-dom:click="self.set_click">Want</button>
+            <button type="button" data-k="priority" data-v="high" anvil:name="w_high" anvil:on-dom:click="self.set_click">Really want</button>
+          </div></div>
+      </div>
+    </div>
+  </div>
+  <div class="sheet-foot">
+    <anvil-component type="Button" name="delete_button" prop:text="Delete card" prop:role='["icon-btn", "danger-ic", "ic-trash"]'></anvil-component>
+    <anvil-component type="Button" name="save_button" prop:text="Add to board" prop:role='["btn", "btn-dark", "btn-lg", "sp", "ic-check"]'></anvil-component>
+  </div>
+</div>

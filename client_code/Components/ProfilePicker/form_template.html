@@ -1,0 +1,15 @@
+<div class="form">
+  <label class="field"><span class="label">Your name</span>
+    <anvil-component type="TextBox" name="name_box" prop:placeholder="Mom, Dad, Alex…" prop:role='["input"]'></anvil-component>
+  </label>
+  <div class="field"><span class="label" id="pp-avatar">Avatar</span>
+    <div class="emoji-grid" role="group" aria-labelledby="pp-avatar">
+      <anvil-component type="RepeatingPanel" name="emoji_panel" prop:item_template="Fun_To_Plan.Items.Choice" prop:role='["emoji-grid"]'></anvil-component>
+    </div>
+  </div>
+  <div class="field"><span class="label" id="pp-color">Color</span>
+    <div class="swatches" role="group" aria-labelledby="pp-color">
+      <anvil-component type="RepeatingPanel" name="color_panel" prop:item_template="Fun_To_Plan.Items.Choice" prop:role='["swatches"]'></anvil-component>
+    </div>
+  </div>
+</div>

@@ -414,11 +414,11 @@ def _seed(family, me, p):
   for s in seeds:
     rec = s.get("recurrence", "none")
     app_tables.items.add_row(
-      family=family, seq=_next_seq(family), kind=s["kind"], title=s["title"], notes=s.get("notes", ""),
-      status="todo", assignee=None, created_by=me, created=now, updated=now,
-      due_date=s.get("due_date"), event_at=s.get("event_at"), location=s.get("location", ""), link=s.get("link", ""),
-      priority=s.get("priority", "normal"), points=s.get("points", 0), recurrence=rec, rotate=s.get("rotate", False),
-      requires_approval=s.get("requires_approval", False), series=uuid.uuid4().hex if rec != "none" else None,
+      family=family, seq=_next_seq(family), kind=s["kind"], title=s["title"], notes=s.get("notes", ""),  # type: ignore  (Anvil's validator can't type these dict-built rows)
+      status="todo", assignee=None, created_by=me, created=now, updated=now,  # type: ignore  (Anvil's validator can't type these dict-built rows)
+      due_date=s.get("due_date"), event_at=s.get("event_at"), location=s.get("location", ""), link=s.get("link", ""),  # type: ignore  (Anvil's validator can't type these dict-built rows)
+      priority=s.get("priority", "normal"), points=s.get("points", 0), recurrence=rec, rotate=s.get("rotate", False),  # type: ignore  (Anvil's validator can't type these dict-built rows)
+      requires_approval=s.get("requires_approval", False), series=uuid.uuid4().hex if rec != "none" else None,  # type: ignore  (Anvil's validator can't type these dict-built rows)
       occurrence=1, acks=[], comment_count=0, points_awarded=0, points_to=None, spawned_next=False,
       completed_by=None, completed_at=None, approved_by=None,
     )
@@ -514,7 +514,7 @@ def m_save_item(p, user, me, family):
     family=family, seq=_next_seq(family), status="todo", created_by=me, created=now, updated=now,
     series=uuid.uuid4().hex if fields["recurrence"] != "none" else None, occurrence=1,
     acks=[], comment_count=0, points_awarded=0, points_to=None, spawned_next=False,
-    completed_by=None, completed_at=None, approved_by=None, **fields
+    completed_by=None, completed_at=None, approved_by=None, **fields  # type: ignore  (Anvil's validator can't type these dict-built rows)
   )
   label = {"task": "a task", "event": "an event", "want": "a want"}[kind]
   extra = f" · {_n(row['points'])} brownie point bounty" if row["points"] else ""

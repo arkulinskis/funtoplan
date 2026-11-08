@@ -1,0 +1,34 @@
+<anvil-form layout="Fun_To_Plan.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="auth"><div class="auth-inner">
+      <div><a class="btn btn-sm btn-ghost" href="#landing"><i class="ic ic-back"></i>Back</a></div>
+      <div class="auth-hero">
+        <div class="big-logo"><div class="inner"><i class="ic ic-check"></i></div></div>
+        <h1 class="auth-title">Fun To Plan</h1>
+        <p class="auth-sub">One shared board for the whole family. Tasks, events, wants, chat and brownie points.</p>
+      </div>
+      <div class="notice" anvil:name="invited_note"><i class="ic ic-qr"></i><span>You've been invited to a family board! Log in or create an account to join.</span></div>
+      <div class="neu pad form">
+        <div class="seg" role="group" aria-label="Log in or sign up">
+          <button type="button" anvil:name="tab_login" data-mode="login" anvil:on-dom:click="self.mode_click">Log in</button>
+          <button type="button" anvil:name="tab_signup" data-mode="signup" anvil:on-dom:click="self.mode_click">Sign up</button>
+        </div>
+        <label class="field"><span class="label">Email</span>
+          <anvil-component type="TextBox" name="email_box" prop:type="email" prop:placeholder="you@family.com" prop:role='["input"]'></anvil-component>
+        </label>
+        <label class="field"><span class="label">Password</span>
+          <anvil-component type="TextBox" name="password_box" prop:hide_text="true" prop:role='["input"]'></anvil-component>
+        </label>
+        <div anvil:name="consent_box" anvil:dom-node="consent"></div>
+        <anvil-component type="Label" name="message" prop:role='["err"]' prop:visible="false"></anvil-component>
+        <anvil-component type="Button" name="submit_button" prop:text="Log in" prop:role='["btn", "btn-dark", "btn-lg", "btn-block"]'></anvil-component>
+        <div class="center" anvil:name="forgot_part">
+          <anvil-component type="Button" name="forgot_button" prop:text="Forgot password?" prop:role='["link-btn"]'></anvil-component>
+        </div>
+        <div class="center small muted b">or</div>
+        <anvil-component type="Button" name="google_button" prop:text="Continue with Google" prop:icon="_/theme/google-g.svg" prop:role='["btn", "btn-lg", "btn-block"]'></anvil-component>
+      </div>
+      <p class="center small muted b">New here? <a class="link-btn" href="#landing">See how Fun To Plan works</a></p>
+    </div></div>
+  </anvil-block>
+</anvil-form>

@@ -1,0 +1,47 @@
+<anvil-form layout="Fun_To_Plan.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="page-head"><div class="sp"><h1 class="page-title">Family epic</h1><div class="page-sub">All the family's cards, from To do to Done</div></div>
+      <anvil-component type="Button" name="new_button" prop:text="Card" prop:role='["btn", "btn-dark", "ic-plus"]'></anvil-component></div>
+
+    <div class="neu epic">
+      <span class="epic-tag"><i class="ic ic-sparkle ic-sm"></i>EPIC · FAMILY</span>
+      <h2 class="epic-title" anvil:dom-node="fam_name"></h2>
+      <div class="bar" role="progressbar" aria-label="Cards done" aria-valuemin="0" aria-valuemax="100" anvil:dom-node="bar_box"><i anvil:dom-node="bar"></i></div>
+      <div class="epic-stats"><span><b anvil:dom-node="n_open"></b>open</span><span><b anvil:dom-node="n_done"></b>done (30 days)</span>
+        <span><b anvil:dom-node="n_review"></b>in review</span><span class="sp"></span>
+        <anvil-component type="RepeatingPanel" name="family_stack" prop:item_template="Fun_To_Plan.Items.Avatar" prop:role='["stack"]'></anvil-component></div>
+    </div>
+
+    <div class="board-tools">
+      <div class="chips" role="group" aria-label="Show">
+        <button type="button" class="chip" data-f="all" anvil:name="f_all" anvil:on-dom:click="self.filter_click"><i class="ic ic-board ic-sm"></i>All</button>
+        <button type="button" class="chip" data-f="task" anvil:name="f_task" anvil:on-dom:click="self.filter_click"><i class="ic ic-check ic-sm"></i>Tasks</button>
+        <button type="button" class="chip" data-f="event" anvil:name="f_event" anvil:on-dom:click="self.filter_click"><i class="ic ic-calendar ic-sm"></i>Events</button>
+        <button type="button" class="chip" data-f="want" anvil:name="f_want" anvil:on-dom:click="self.filter_click"><i class="ic ic-star ic-sm"></i>Wants</button>
+        <button type="button" class="chip" data-f="mine" anvil:name="f_mine" anvil:on-dom:click="self.filter_click"><i class="ic ic-user ic-sm"></i>Mine</button>
+        <button type="button" class="chip" data-f="bounty" anvil:name="f_bounty" anvil:on-dom:click="self.filter_click"><i class="ic ic-trophy ic-sm"></i>Bounties</button>
+      </div>
+      <div class="seg col-seg" role="group" aria-label="Column">
+        <button type="button" data-col="todo" anvil:name="c_todo" anvil:on-dom:click="self.col_click">To do <span class="muted" anvil:dom-node="cn_todo"></span></button>
+        <button type="button" data-col="doing" anvil:name="c_doing" anvil:on-dom:click="self.col_click">Doing <span class="muted" anvil:dom-node="cn_doing"></span></button>
+        <button type="button" data-col="review" anvil:name="c_review" anvil:on-dom:click="self.col_click">Review <span class="muted" anvil:dom-node="cn_review"></span></button>
+        <button type="button" data-col="done" anvil:name="c_done" anvil:on-dom:click="self.col_click">Done <span class="muted" anvil:dom-node="cn_done"></span></button>
+      </div>
+    </div>
+
+    <div class="board">
+      <section class="board-col" anvil:name="col_todo"><h2 class="col-head">To do<span class="count" anvil:dom-node="h_todo"></span></h2>
+        <anvil-component type="RepeatingPanel" name="p_todo" prop:item_template="Fun_To_Plan.Items.Card" prop:role='["col-body"]'></anvil-component>
+        <div class="empty" anvil:name="e_todo"><span class="big">✨</span>Nothing to do. Add a card!</div></section>
+      <section class="board-col" anvil:name="col_doing"><h2 class="col-head">In progress<span class="count" anvil:dom-node="h_doing"></span></h2>
+        <anvil-component type="RepeatingPanel" name="p_doing" prop:item_template="Fun_To_Plan.Items.Card" prop:role='["col-body"]'></anvil-component>
+        <div class="empty" anvil:name="e_doing"><span class="big">🛠️</span>Start a card to move it here.</div></section>
+      <section class="board-col" anvil:name="col_review"><h2 class="col-head">Review<span class="count" anvil:dom-node="h_review"></span></h2>
+        <anvil-component type="RepeatingPanel" name="p_review" prop:item_template="Fun_To_Plan.Items.Card" prop:role='["col-body"]'></anvil-component>
+        <div class="empty" anvil:name="e_review"><span class="big">🛡️</span>Finished tasks that need approval land here.</div></section>
+      <section class="board-col" anvil:name="col_done"><h2 class="col-head">Done<span class="count" anvil:dom-node="h_done"></span></h2>
+        <anvil-component type="RepeatingPanel" name="p_done" prop:item_template="Fun_To_Plan.Items.Card" prop:role='["col-body"]'></anvil-component>
+        <div class="empty" anvil:name="e_done"><span class="big">🏁</span>Finished cards show up here for 30 days.</div></section>
+    </div>
+  </anvil-block>
+</anvil-form>
