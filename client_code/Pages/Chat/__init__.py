@@ -57,7 +57,7 @@ class Chat(ChatTemplate):
         box.style.height = "%dpx" % min(140, box.scrollHeight)
 
     def _key(self, event):
-        if event.key == "Enter" and not event.shiftKey and getattr(window.matchMedia("(hover: hover)"), "matches"):
+        if getattr(event, "key", None) == "Enter" and not getattr(event, "shiftKey", False) and getattr(window.matchMedia("(hover: hover)"), "matches"):
             event.preventDefault()
             self.send_button_click()
 
