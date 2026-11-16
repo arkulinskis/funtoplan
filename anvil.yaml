@@ -291,7 +291,10 @@ db_schema:
     indexes: []
     server: full
     title: Users
-metadata: {description: 'A shared family board for 2 to 4 people: chores, events and wish lists, family chat, recurring tasks that take turns, and brownie points for getting things done.', logo_img: 'asset:logo.png', title: 'Fun To Plan: a family chore board with brownie points'}
+metadata:
+  description: "A shared family board for 2 to 4 people: chores, events and wish lists, family chat, recurring tasks that take turns, and brownie points for getting things done."
+  logo_img: "asset:logo.png"
+  title: "Fun To Plan: a family chore board with brownie points"
 name: Fun To Plan
 native_deps:
   head_html: |
@@ -319,6 +322,16 @@ native_deps:
     <meta name="twitter:image" content="https://funtoplan.com/_/theme/og-image.png">
     <link rel="alternate" type="text/plain" title="Fun To Plan for AI assistants" href="https://funtoplan.com/llms.txt">
     <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Service", "@id": "https://funtoplan.com/#app", "name": "Fun To Plan", "url": "https://funtoplan.com/", "description": "A shared family board for 2 to 4 people: chores, events and wish lists, family chat, recurring tasks that take turns, and brownie points for getting things done.", "image": "https://funtoplan.com/_/theme/og-image.png", "serviceType": "One family board for tasks, events and wants, with brownie points", "provider": {"@id": "https://arkvital.com/#org"}, "areaServed": "Worldwide", "availableChannel": {"@type": "ServiceChannel", "serviceUrl": "https://funtoplan.com/", "name": "Web browser", "availableLanguage": "en"}, "audience": {"@type": "Audience", "audienceType": "Families and households of 2 to 4 people"}}, {"@type": "WebSite", "@id": "https://funtoplan.com/#site", "url": "https://funtoplan.com/", "name": "Fun To Plan", "publisher": {"@id": "https://arkvital.com/#org"}}, {"@type": "Organization", "@id": "https://arkvital.com/#org", "name": "Arkvital", "url": "https://arkvital.com", "email": "arkvital@outlook.com", "address": {"@type": "PostalAddress", "addressLocality": "Montreal", "addressRegion": "QC", "addressCountry": "CA"}}]}</script>
+    <noscript><div class="seo-noscript">
+    <h1>Fun To Plan: a family chore board with brownie points</h1>
+    <p>A shared family board for 2 to 4 people: chores, events and wish lists, family chat, recurring tasks that take turns, and brownie points for getting things done.</p>
+    <p>Fun To Plan is a shared family board, like a small Jira for the household: tasks, events and wants all go on one board. Everyone can add cards, acknowledge them, comment and chat, and doing tasks earns brownie points.</p>
+    <p>One person creates the board and the others join by scanning its QR code. Tasks can repeat and take turns, bounties reward the jobs nobody wants, and levels, a weekly family goal and a podium keep it fun. It looks like the family fridge door.</p>
+    <p>Who it's for: Families and households of 2 to 4 people</p>
+    <h2>What it does</h2><ul><li>Three card types: tasks, events and wants</li><li>Brownie point bounties and optional approval for finished tasks</li><li>Recurring tasks with Take turns to rotate them through the family</li><li>Family chat and an activity feed</li><li>Join with a QR code; works on phones and desktop</li><li>Levels, a weekly family goal and a 7-day podium</li></ul>
+    <h2>Questions</h2><h3>How many people can join a board?</h3><p>Up to four. One person creates the board and the others join by scanning its QR code or typing the 6-letter code.</p><h3>How do brownie points work?</h3><p>Add points to a task as a bounty. Whoever finishes it earns them, and reopening a finished card takes them back.</p><h3>Can chores repeat?</h3><p>Yes: daily, on weekdays, weekly, every 2 weeks or monthly, and Take turns rotates the next one through the family.</p>
+    <p><a href="https://funtoplan.com/about">About Fun To Plan</a> &middot; <a href="https://funtoplan.com/llms.txt">Fun To Plan for AI assistants</a> &middot; Made by <a href="https://arkvital.com">Arkvital</a>, Montreal, Canada. Fun To Plan needs JavaScript in your browser.</p>
+    </div></noscript>
     <!-- seo:end -->
     <meta name="theme-color" content="#f1ede4">
     <meta name="apple-mobile-web-app-capable" content="yes">
