@@ -20,6 +20,8 @@ os.environ["ANVIL_APP_YAML"] = str(PROJECT / "anvil.yaml")
 sys.path[:0] = [str(HERE / "mock"), str(_tmp)]
 import anvil.server  # noqa: E402
 import anvil.users  # noqa: E402
+import anvil.secrets  # noqa: E402
+anvil.secrets.SECRETS["admin_emails"] = "admin@example.com"  # the App Secret, faked
 from anvil.tables import app_tables as T  # noqa: E402
 
 for name in ("api", "legal_server", "SchemaCheck"):
