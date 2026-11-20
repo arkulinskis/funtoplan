@@ -22,7 +22,9 @@ PAGES = {
     "board": ("family", "Board"),
     "chat": ("family", "Family chat"),
     "family": ("family", "Family"),
+    "week": ("family", "This week"),
 }
+# #week (and #week/YYYY-MM-DD) isn't in NAV, so the phone tab bar stays 2 + the red magnet + 2: Board and Home link to it.
 NAV = [("home", "Home", "home"), ("board", "Board", "board"), ("chat", "Chat", "chat"), ("family", "Family", "family")]
 APP_NAME = "Fun To Plan"
 _r: dict = {"after": "", "listening": False, "page": ""}
@@ -48,6 +50,9 @@ def _form(name):
     if name == "family":
         from .Pages.Family import Family
         return Family
+    if name == "week":
+        from .Pages.Week import Week
+        return Week
     from .Pages.Home import Home
     return Home
 

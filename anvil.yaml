@@ -1,5 +1,27 @@
 allow_embedding: false
 db_schema:
+  cal_links:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: family
+      target: families
+      type: link_single
+    - admin_ui: {order: 1, width: 200}
+      name: member
+      target: members
+      type: link_single
+    - admin_ui: {order: 2, width: 280}
+      name: token
+      type: string
+    - admin_ui: {order: 3, width: 200}
+      name: created
+      type: datetime
+    - admin_ui: {order: 4, width: 200}
+      name: last_fetch
+      type: datetime
+    server: full
+    title: Calendar links
   error_log:
     client: none
     columns:
@@ -301,7 +323,7 @@ native_deps:
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <!-- Prepsto feedback panel (the only feedback channel): every Submit feedback link (data-prepsto-open) opens it -->
     <script src="https://prepsto.com/_/theme/widget.js" data-prepsto="dj4ujb9" data-button="false" data-label="Submit feedback" async></script>
-    <script src="_/theme/legal-kit.js?v=51e8fe868d"></script>
+    <script src="_/theme/legal-kit.js?v=468723d143"></script>
     <!-- seo:start (APP_MAKER/seo: edit seo/apps/funtoplan.json and run seo.py, not here) -->
     <link rel="canonical" href="https://funtoplan.com/">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -353,9 +375,9 @@ native_deps:
       window.addEventListener('load', keep);
     })();
     </script>
-    <link rel="stylesheet" href="_/theme/icons.css?v=d84ed56077">
-    <link rel="stylesheet" href="_/theme/app.css?v=d790e9a305">
-    <script src="_/theme/app-kit.js?v=ceed60884b"></script>
+    <link rel="stylesheet" href="_/theme/icons.css?v=3003647187">
+    <link rel="stylesheet" href="_/theme/app.css?v=ea15ab8a33">
+    <script src="_/theme/app-kit.js?v=ec9eea5e8c"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <script src="_/theme/ftp-fx.js?v=34f3298721"></script>
     <style>html, body { background: #f1ede4; margin: 0; } html.ui-dark, html.ui-dark body { background: #1e2126; }</style>

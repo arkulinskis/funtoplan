@@ -25,7 +25,7 @@
       <div class="d-meta-row" anvil:name="r_link"><span class="k">Link</span><span class="v"><a target="_blank" rel="noopener" anvil:dom-node="link"></a></span></div>
       <div class="d-meta-row"><span class="k">Created</span><span class="v"><span class="avatar xs" anvil:dom-node="a_created"></span><span anvil:dom-node="v_created"></span><span class="muted small" anvil:dom-node="created_ago"></span></span></div>
       <div class="d-meta-row" anvil:name="r_done"><span class="k" anvil:dom-node="k_done"></span><span class="v"><span class="avatar xs" anvil:dom-node="a_done"></span><span anvil:dom-node="v_done"></span><span class="muted small" anvil:dom-node="done_ago"></span></span></div>
-      <div class="d-meta-row" anvil:name="r_appr"><span class="k">Approved</span><span class="v"><span class="avatar xs" anvil:dom-node="a_appr"></span><span anvil:dom-node="v_appr"></span></span></div>
+      <div class="d-meta-row" anvil:name="r_appr"><span class="k" anvil:dom-node="k_appr">Approved</span><span class="v"><span class="avatar xs" anvil:dom-node="a_appr"></span><span anvil:dom-node="v_appr"></span></span></div>
     </div>
     <div class="ack-row">
       <div class="sp"><div class="label" style="padding:0" anvil:dom-node="ack_word"></div>
@@ -42,6 +42,11 @@
       <anvil-component type="Button" name="a_reopen" prop:text="Reopen" prop:role='["btn", "ic-undo"]'></anvil-component>
       <anvil-component type="Button" name="a_complete" prop:text="Mark done" prop:role='["btn", "btn-dark", "ic-check"]'></anvil-component>
       <anvil-component type="Button" name="a_approve" prop:text="Approve" prop:role='["btn", "btn-dark", "ic-shield"]'></anvil-component>
+      <anvil-component type="Button" name="a_kid" prop:text="Did it" prop:role='["btn", "btn-dark", "kid-did"]'></anvil-component>
+    </div>
+    <div class="kid-done" anvil:name="kid_box">
+      <div class="small muted b">Or a kid did it (they get the brownie points):</div>
+      <anvil-component type="RepeatingPanel" name="kid_panel" prop:item_template="Fun_To_Plan.Items.Choice" prop:role='["chip-row"]'></anvil-component>
     </div>
     <section class="section" style="margin-top:22px">
       <div class="section-head"><h3 class="section-title">Comments</h3><span class="count" anvil:dom-node="comment_count"></span></div>

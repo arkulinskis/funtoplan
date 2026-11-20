@@ -12,24 +12,31 @@ class Editor(EditorTemplate):
     """New card / Edit FAM-12 (save_item): kind, title, notes, then per kind -
     task: who's on it (or anyone), due date (+ Today / Tomorrow / Weekend), priority, bounty points, repeat, take
     turns, needs approval; event: date, time, place, host; want: who wants it, link, how much.
-    The creator or the board's owner can delete. Closes with {"saved": id} or {"deleted": True}."""
+    The creator or the board's owner can delete. Closes with {"saved": id} or {"deleted": True}.
+    preset (new cards only, ftp.open_editor): {"due": "YYYY-MM-DD" (task due date + event day), "assignee",
+    "recurrence", "notes", "hint" (a line above the form)}."""
 
-    def __init__(self, item_id=None, kind=None, **properties):
+    def __init__(self, item_id=None, kind=None, preset=None, **properties):
         super().__init__(**properties)
         it = ftp.item_by_id(item_id) if item_id else None
+        pre = ftp.loose(preset) or {}
+        if it:
+            pre = {}
         now = ftp.jsdate()
         next_hour = ftp.jsdate(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1)
         ev = ftp.jsdate(it["event_at"]) if it and it.get("event_at") else next_hour
         self._id = it["id"] if it else None
         self.e: dict = {"kind": it["kind"] if it else (kind if kind in ftp.KIND else "task"),
-                  "assignee": it.get("assignee") if it else None,
+                  "assignee": it.get("assignee") if it else (pre.get("assignee") or None),
                   "priority": it["priority"] if it else "normal", "points": it["points"] if it else 0,
-                  "recurrence": it["recurrence"] if it else "none", "rotate": bool(it and it["rotate"]),
-                  "requires_approval": bool(it and it["requires_approval"])}
+                  "recurrence": it["recurrence"] if it else (pre.get("recurrence") or "none"),
+                  "rotate": bool(it and it["rotate"]), "requires_approval": bool(it and it["requires_approval"])}
         self.title_box.text = it["title"] if it else ""
-        self.notes_box.text = it["notes"] if it else ""
-        self.due_box.text = (it.get("due_date") or "")[:10] if it else ""
-        self.date_box.text = ftp.ymd(ev)
+        self.notes_box.text = it["notes"] if it else (pre.get("notes") or "")
+        self.due_box.text = (it.get("due_date") or "")[:10] if it else (pre.get("due") or "")
+        self.date_box.text = pre.get("due") or ftp.ymd(ev)
+        self.dom_nodes["hint"].textContent = pre.get("hint") or ""
+        self.dom_nodes["hint"].style.display = "" if pre.get("hint") else "none"
         self.time_box.text = ftp.fmt_time(ev)
         self.place_box.text = it.get("location", "") if it else ""
         self.link_box.text = it.get("link", "") if it else ""

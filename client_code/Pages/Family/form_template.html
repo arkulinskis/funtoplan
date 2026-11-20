@@ -16,6 +16,7 @@
               <anvil-component type="Button" name="share_button" prop:text="Share" prop:role='["btn", "btn-sm", "ic-share"]'></anvil-component>
               <anvil-component type="Button" name="big_qr_button" prop:text="Big QR" prop:role='["btn", "btn-sm", "btn-dark", "ic-qr"]'></anvil-component>
             </div>
+            <anvil-component type="Button" name="kid_button" prop:text="Add a kid · no phone needed" prop:role='["btn", "btn-sm", "ic-plus", "kid-add"]'></anvil-component>
           </div>
         </div>
 
@@ -29,6 +30,25 @@
             <div class="pod p2" anvil:name="pod1"><span class="avatar lg" anvil:dom-node="pa1"></span><div class="nm" anvil:dom-node="pn1"></div><div class="pillar"><span class="place">🥈</span><span class="pts"><svg class="brownie" viewBox="0 0 24 24" aria-hidden="true"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/></svg><span anvil:dom-node="pp1"></span></span></div></div>
             <div class="pod p1" anvil:name="pod0"><span class="avatar lg" anvil:dom-node="pa0"></span><div class="nm" anvil:dom-node="pn0"></div><div class="pillar"><span class="place">🥇</span><span class="pts"><svg class="brownie" viewBox="0 0 24 24" aria-hidden="true"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/></svg><span anvil:dom-node="pp0"></span></span></div></div>
             <div class="pod p3" anvil:name="pod2"><span class="avatar lg" anvil:dom-node="pa2"></span><div class="nm" anvil:dom-node="pn2"></div><div class="pillar"><span class="place">🥉</span><span class="pts"><svg class="brownie" viewBox="0 0 24 24" aria-hidden="true"><rect class="b-cake" x="3" y="6" width="18" height="14" rx="3.5"/><path class="b-top" d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5v2q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0q-1.5 1.5-3 0z"/></svg><span anvil:dom-node="pp2"></span></span></div></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><h2 class="section-title">Who's carrying the load?</h2><span class="sp"></span><span class="small muted b">last 30 days</span></div>
+          <div class="neu share">
+            <div class="share-key small muted b"><span><i class="sw sw-plan"></i>Planned: cards added</span><span><i class="sw sw-did"></i>Did: tasks finished</span><span><i class="sw sw-chk"></i>Checked: approved or ticked off for a kid</span></div>
+            <anvil-component type="RepeatingPanel" name="share_panel" prop:item_template="Fun_To_Plan.Items.ShareRow" prop:role='["share-rows"]'></anvil-component>
+            <div class="share-split" anvil:name="split_box">
+              <div class="small muted b">Planning split between the grown-ups</div>
+              <div class="split-bar" role="img" anvil:dom-node="split_bar"></div>
+              <div class="b" anvil:dom-node="split_text"></div>
+            </div>
+            <div class="share-note" anvil:name="note_box">
+              <p anvil:dom-node="note_text"></p>
+              <div class="small" anvil:dom-node="note_sub">Owning a job means all of it: noticing, planning and doing.</div>
+              <anvil-component type="Button" name="own_button" prop:text="Own a job" prop:role='["btn", "btn-sm", "btn-dark", "ic-hand"]'></anvil-component>
+            </div>
+            <div class="share-verdict b" anvil:dom-node="verdict"></div>
           </div>
         </section>
       </div>

@@ -40,7 +40,8 @@
         <div class="empty" anvil:name="bounty_empty"><span class="big">🍫</span>No open bounties. Add a task with brownie points!</div>
       </section>
       <section class="section">
-        <div class="section-head"><h2 class="section-title">Coming up</h2><span class="count" anvil:dom-node="event_count"></span></div>
+        <div class="section-head"><h2 class="section-title">Coming up</h2><span class="count" anvil:dom-node="event_count"></span><span class="sp"></span>
+          <a class="btn btn-sm btn-ghost" href="#week"><i class="ic ic-calendar ic-sm"></i>Week view</a></div>
         <anvil-component type="RepeatingPanel" name="event_panel" prop:item_template="Fun_To_Plan.Items.Card" prop:role='["list"]'></anvil-component>
         <div class="empty" anvil:name="event_empty"><span class="big">📅</span>No events in the next two weeks.</div>
       </section>

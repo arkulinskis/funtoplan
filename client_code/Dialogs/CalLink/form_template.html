@@ -1,0 +1,30 @@
+<div class="ftp-dlg">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><h2 class="sheet-title">Your phone's calendar</h2><span class="sp"></span>
+    <anvil-component type="Button" name="close_button" prop:text="Close" prop:role='["icon-btn", "ic-close"]'></anvil-component></div>
+  <div class="sheet-body">
+    <p class="cal-lead">See the family week in the calendar you already use, free. Your calendar subscribes to a private link and updates it by itself, about once an hour: events, plus every job with a due date.</p>
+    <div class="cal-wait small muted b" anvil:name="wait_box"><span class="spin" aria-hidden="true"></span>Making your private link…</div>
+    <div class="cal-err" anvil:name="err_box" role="alert">
+      <p anvil:dom-node="err_text"></p>
+      <anvil-component type="Button" name="retry_button" prop:text="Try again" prop:role='["btn", "btn-sm", "ic-refresh"]'></anvil-component>
+    </div>
+    <div class="form" anvil:name="ready_box">
+      <div class="switch-row"><div class="sp"><div class="t" id="cal-mine-t">Only my jobs</div><div class="s">Family events, plus only the tasks on your name</div></div>
+        <button type="button" class="toggle" role="switch" aria-labelledby="cal-mine-t" anvil:name="mine_toggle" anvil:on-dom:click="self.mine_click"></button></div>
+      <div class="cal-btns">
+        <a class="btn btn-dark btn-block" anvil:dom-node="apple_link"><i class="ic ic-calendar"></i>Apple Calendar · iPhone, iPad, Mac</a>
+        <a class="btn btn-block" target="_blank" rel="noopener" anvil:dom-node="google_link"><i class="ic ic-calendar"></i>Google Calendar</a>
+        <anvil-component type="Button" name="copy_button" prop:text="Copy link" prop:role='["btn", "btn-block", "ic-copy"]'></anvil-component>
+      </div>
+      <div class="cal-url" anvil:dom-node="url"></div>
+      <ul class="cal-how small">
+        <li><b>Android:</b> add it with Google Calendar above (on the web); it then shows on your phone. Turn it on under Settings → your calendars if it's hidden.</li>
+        <li><b>Outlook:</b> Add calendar → Subscribe from web, then paste the link.</li>
+      </ul>
+      <div class="notice cal-privacy"><i class="ic ic-lock"></i><span>Anyone with this link sees your family's week (titles, times, places and names). Keep it to yourself; if it gets out, reset it.</span></div>
+      <div class="cal-reset"><span class="small muted b sp" anvil:dom-node="fetched"></span>
+        <anvil-component type="Button" name="reset_button" prop:text="Reset link" prop:role='["btn", "btn-sm", "ic-refresh"]'></anvil-component></div>
+    </div>
+  </div>
+</div>

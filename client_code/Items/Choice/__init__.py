@@ -7,7 +7,8 @@ from ... import ftp
 
 class Choice(ChoiceTemplate):
     """One choice in a picker: an emoji avatar, a colour swatch, or a person (avatar + name).
-    item = {"key", "kind": "emoji" | "swatch" | "person", "on", "label", "m" (person: member-like dict)}.
+    item = {"key", "kind": "emoji" | "swatch" | "person" | "chip", "on", "label", "m" (person/chip: member-like dict)}.
+    "chip" = a small horizontal chip (avatar + label): the Week page's person filter, the card sheet's kid buttons.
     A click raises "x-pick" (key=...) on the RepeatingPanel; the picker redraws and keeps the focus (data-key)."""
 
     def __init__(self, **properties):
@@ -28,6 +29,15 @@ class Choice(ChoiceTemplate):
             label.remove()
             dot.style.background = it["key"]
             node.setAttribute("aria-label", it.get("label") or it["key"])
+        elif kind == "chip":
+            node.className = "chip person-chip" + (" on" if it.get("on") else "")
+            dot.remove()
+            if it.get("m"):
+                ftp.avatar(face, it["m"], "xs")
+                face.setAttribute("aria-hidden", "true")
+            else:
+                face.remove()
+            ftp.text(label, it.get("label") or (it["m"]["name"] if it.get("m") else ""))
         else:
             node.className = "pick-item" + (" on" if it.get("on") else "")
             dot.remove()

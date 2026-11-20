@@ -1,0 +1,17 @@
+<div class="ftp-dlg">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><h2 class="sheet-title" anvil:dom-node="title">Add a kid</h2><span class="sp"></span>
+    <anvil-component type="Button" name="close_button" prop:text="Close" prop:role='["icon-btn", "ic-close"]'></anvil-component></div>
+  <div class="sheet-body">
+    <div class="kid-intro">
+      <span class="kid-badge" aria-hidden="true">🧒</span>
+      <div class="sp"><div class="t">No phone, no account needed</div>
+        <div class="s">Your kid gets a seat on the board, the podium and Take turns. A grown-up taps <b anvil:dom-node="did_it">“Leo did it”</b> on their jobs and the brownie points go to them. Just a first name or nickname, please.</div></div>
+    </div>
+    <anvil-component type="Fun_To_Plan.Components.ProfilePicker" name="picker"></anvil-component>
+    <div class="small muted b kid-seats" anvil:dom-node="seats"></div>
+  </div>
+  <div class="sheet-foot">
+    <anvil-component type="Button" name="save_button" prop:text="Add to the board" prop:role='["btn", "btn-dark", "btn-lg", "sp", "ic-check"]'></anvil-component>
+  </div>
+</div>

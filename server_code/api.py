@@ -6,10 +6,12 @@ client can never award itself points or read another family's board.
 
 Data model (see anvil.yaml for the full schema):
   families   - one shared board ("the FAMILY epic"), joined with a 6-letter code
-  members    - a user's seat in a family (2-4 people), with avatar + points
+  members    - a seat in a family (up to 4): a grown-up's account (user set, role owner/member)
+               or a kid seat (user None, role "kid": a nickname, emoji and points, no account, no phone)
   items      - cards on the board: kind = task | event | want
   messages   - family chat, system activity and per-card comments
   points_log - ledger of every point awarded or revoked
+  cal_links  - one private phone-calendar link per seat (token for /cal/<token>.ics, calendar_feed.py)
 """
 
 import calendar
@@ -124,9 +126,30 @@ def _bump(family):
 
 
 def _active_members(family):
+  """Everyone with a seat, kid seats included (the 4-seat cap and Take turns count them), in join order."""
   rows = [m for m in app_tables.members.search(family=family, active=True)]
   rows.sort(key=lambda m: m["joined"] or _now())
   return rows
+
+
+def _is_kid(member):
+  return member is not None and member["role"] == "kid"
+
+
+def _grownups(family):
+  """The seats with an account: only they can approve, own the board or be "someone else" for approvals."""
+  return [m for m in _active_members(family) if not _is_kid(m)]
+
+
+def _for_kid(p, family):
+  """The kid seat a grown-up is ticking a job off for (payload "for_member"), or None."""
+  mid = p.get("for_member")
+  if not mid:
+    return None
+  kid = _member_in(family, mid, allow_none=False)
+  if not _is_kid(kid):
+    raise ApiError("Only a kid seat can be marked by someone else.")
+  return kid
 
 
 def _new_code():
@@ -198,6 +221,14 @@ def _profile(p, user):
   return name, avatar, color
 
 
+def _kid_profile(p):
+  """A kid seat holds only a first name or nickname, an emoji and a magnet colour (no account, no other details)."""
+  name = _txt(p.get("display_name"), 24, True, "A name or nickname")
+  avatar = _txt(p.get("avatar"), 8) or "🦖"
+  color = p.get("color") if COLOR_RE.match(str(p.get("color") or "")) else "#f2b51d"
+  return name, avatar, color
+
+
 def _next_seq(family):
   seq = _n(family["next_seq"]) or 1
   family["next_seq"] = seq + 1
@@ -236,6 +267,7 @@ def _member_dict(m, week_points, done_counts):
     "avatar": m["avatar"],
     "color": m["color"],
     "role": m["role"],
+    "kid": _is_kid(m),
     "points": _n(m["points"]),
     "week_points": week_points.get(mid, 0),
     "done_30": done_counts.get(mid, 0),
@@ -556,7 +588,9 @@ def _spawn_next(row, family, today):
   row["spawned_next"] = True
 
 
-def _finish(row, family, completer, approver, today):
+def _finish(row, family, completer, approver, today, marker=None):
+  """Close a task and pay its points through the ledger. marker = the grown-up who ticked it off for a kid seat
+  (they vouch for it, so they're also recorded as the one who checked it)."""
   now = _now()
   row.update(status="done", completed_by=completer, completed_at=now, approved_by=approver, updated=now)
   pts = _n(row["points"])
@@ -566,7 +600,10 @@ def _finish(row, family, completer, approver, today):
     app_tables.points_log.add_row(
       family=family, member=completer, delta=pts, reason=f"{_key(row)} {row['title']}", item=row, created=now
     )
-  if approver is not None:
+  if marker is not None:
+    tail = f" · +{pts} brownie points" if pts else ""
+    _sys(family, completer, f"completed {_key(row)} · {row['title']}{tail} · marked by {marker['display_name']}", row)
+  elif approver is not None:
     tail = f" · +{pts} brownie points to {completer['display_name']}" if pts and completer else ""
     _sys(family, approver, f"approved {_key(row)} · {row['title']}{tail}", row)
   else:
@@ -578,17 +615,25 @@ def _finish(row, family, completer, approver, today):
 
 
 def m_complete(p, user, me, family):
+  """Finish a card. for_member = a kid seat: "Leo did it" - Leo gets the points, the grown-up who ticked it is
+  recorded as the one who checked it (no Review step: they've just seen it done)."""
   row = _item(p, family)
+  kid = _for_kid(p, family)
   if row["kind"] == "event":
     raise ApiError("Events can't be completed. Acknowledge them instead.")
   if row["status"] in ("done", "review"):
     raise ApiError("This card is already finished.")
   now = _now()
   if row["kind"] == "want":
+    if kid is not None:
+      raise ApiError("Kid seats can only finish tasks.")
     row.update(status="done", completed_by=me, completed_at=now, updated=now)
     _sys(family, me, f"got it! {_key(row)} · {row['title']} 🎁", row)
     return {"fx": {"kind": "want"}}
-  if row["requires_approval"] and len(_active_members(family)) > 1:
+  if kid is not None:
+    pts = _finish(row, family, kid, me, _client_today(p), marker=me)
+    return {"fx": {"kind": "done", "points": pts, "who": kid["display_name"]}}
+  if row["requires_approval"] and len(_grownups(family)) > 1:
     row.update(status="review", completed_by=me, completed_at=now, updated=now)
     _sys(family, me, f"finished {_key(row)} · {row['title']} and asks for approval ✋", row)
     return {"fx": {"kind": "review"}}
@@ -601,7 +646,7 @@ def m_approve(p, user, me, family):
   if row["status"] != "review":
     raise ApiError("This card isn't waiting for approval.")
   completer = row["completed_by"]
-  if completer is not None and _mid(completer) == _mid(me) and len(_active_members(family)) > 1:
+  if completer is not None and _mid(completer) == _mid(me) and len(_grownups(family)) > 1:
     raise ApiError("Someone else in the family has to approve your own work.")
   pts = _finish(row, family, completer or me, me, _client_today(p))
   return {"fx": {"kind": "approved", "points": pts}}
@@ -653,15 +698,19 @@ def m_move(p, user, me, family):
 
 
 def m_claim(p, user, me, family):
+  """Take an open task. for_member = a kid seat: a grown-up gives the job (and its bounty) to that kid."""
   row = _item(p, family)
+  kid = _for_kid(p, family)
+  who = kid or me
   if row["kind"] != "task" or row["status"] == "done":
     raise ApiError("Only open tasks can be claimed.")
   current = row["assignee"]
-  if current is not None and current["active"] and _mid(current) != _mid(me):
+  if current is not None and current["active"] and _mid(current) != _mid(who):
     raise ApiError(f"{current['display_name']} already has this one.")
-  row.update(assignee=me, updated=_now())
+  row.update(assignee=who, updated=_now())
   if row["points"]:
-    _sys(family, me, f"claimed the bounty {_key(row)} · {row['title']} ({_n(row['points'])} brownie points)", row)
+    tail = f" · marked by {me['display_name']}" if kid is not None else ""
+    _sys(family, who, f"claimed the bounty {_key(row)} · {row['title']} ({_n(row['points'])} brownie points){tail}", row)
   return {}
 
 
@@ -737,6 +786,35 @@ def _release(member, family):
   member["active"] = False
   for r in app_tables.items.search(family=family, assignee=member, status=q.any_of("todo", "doing")):
     r["assignee"] = None
+  table = _cal_table()
+  if table is not None:  # their private calendar link stops working with the seat
+    try:
+      for link in table.search(member=member):
+        link.delete()
+    except Exception:
+      pass  # before the schema is accepted
+
+
+def m_add_kid(p, user, me, family):
+  """A kid seat: a first name or nickname, an emoji and a colour. No account, no phone; grown-ups tick off their jobs."""
+  if len(_active_members(family)) >= MAX_MEMBERS:
+    raise ApiError(f"Your board is full ({MAX_MEMBERS} seats). Remove someone first to add a kid.", "full")
+  name, avatar, color = _kid_profile(p)
+  kid = app_tables.members.add_row(
+    family=family, user=None, display_name=name, avatar=avatar, color=color,
+    role="kid", points=0, active=True, joined=_now(),
+  )
+  _sys(family, me, f"added a kid seat for {avatar} {name} · no phone needed")
+  return {"kid": _mid(kid)}
+
+
+def m_update_kid(p, user, me, family):
+  kid = _member_in(family, p.get("member_id"), allow_none=False)
+  if not _is_kid(kid):
+    raise ApiError("Only kid seats can be changed here. Everyone else edits their own profile.")
+  name, avatar, color = _kid_profile(p)
+  kid.update(display_name=name, avatar=avatar, color=color)
+  return {}
 
 
 def m_remove_member(p, user, me, family):
@@ -746,7 +824,10 @@ def m_remove_member(p, user, me, family):
   if _mid(target) == _mid(me):
     raise ApiError("Use “Leave family” to remove yourself.")
   _release(target, family)
-  _sys(family, me, f"removed {target['display_name']} from the family")
+  if _is_kid(target):
+    _sys(family, me, f"removed {target['display_name']}'s kid seat")
+  else:
+    _sys(family, me, f"removed {target['display_name']} from the family")
   return {}
 
 
@@ -754,12 +835,59 @@ def m_leave_family(p, user, me, family):
   was_owner = me["role"] == "owner"
   _release(me, family)
   me["role"] = "member"
-  if was_owner:
-    others = _active_members(family)
-    if others:
-      others[0]["role"] = "owner"
+  grownups = _grownups(family)
+  if was_owner and grownups:
+    grownups[0]["role"] = "owner"  # ownership goes to a grown-up, never to a kid seat
+  if not grownups:
+    for kid in _active_members(family):  # nobody with an account is left to look after the kid seats
+      _release(kid, family)
   _sys(family, me, "left the family")
   return {}
+
+
+# ----------------------------------------------------------------------------
+# Phone calendar link (the feed itself is served by calendar_feed.py)
+# ----------------------------------------------------------------------------
+
+def _cal_table():
+  """The cal_links table, or None until the user has accepted the new schema in the Anvil editor."""
+  try:
+    return getattr(app_tables, "cal_links")
+  except Exception:
+    return None
+
+
+def a_cal_link(p):
+  """My seat's private calendar link: made on first use, a new token on reset (the old address then stops working).
+  Runs its own small transaction instead of being a mutation: the board itself doesn't change."""
+  user, me, family = _ctx()
+  from . import calendar_feed
+  table = _cal_table()
+  if table is None:
+    raise ApiError(calendar_feed.NOT_READY, "nocal")
+  reset = bool(p.get("reset"))
+
+  def tx():
+    row = None
+    for r in table.search(member=me):
+      if row is None and _mid(r["family"]) == _mid(family):
+        row = r
+      else:
+        r.delete()  # a link from an older board, or a duplicate
+    if row is None:
+      row = table.add_row(family=family, member=me, token=uuid.uuid4().hex, created=_now(), last_fetch=None)
+    elif reset:
+      row.update(token=uuid.uuid4().hex, created=_now(), last_fetch=None)
+    return {"token": row["token"], "created": _iso(row["created"]), "last_fetch": _iso(row["last_fetch"])}
+
+  try:
+    out = tables.in_transaction(tx)()
+  except Exception as e:
+    print("cal_link failed:", type(e).__name__, e)
+    raise ApiError(calendar_feed.NOT_READY, "nocal")
+  out["path"] = calendar_feed.feed_path(out["token"])
+  out["reset"] = reset
+  return out
 
 
 QUERIES = {
@@ -767,6 +895,7 @@ QUERIES = {
   "sync": a_sync,
   "preview_join": a_preview_join,
   "item_detail": a_item_detail,
+  "cal_link": a_cal_link,
 }
 
 MUTATIONS = {
@@ -789,6 +918,8 @@ MUTATIONS = {
   "regen_code": (m_regen_code, True),
   "remove_member": (m_remove_member, True),
   "leave_family": (m_leave_family, True),
+  "add_kid": (m_add_kid, True),
+  "update_kid": (m_update_kid, True),
 }
 
 

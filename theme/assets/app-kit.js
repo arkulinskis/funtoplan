@@ -35,6 +35,7 @@
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
     arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
     back: '<path d="M15 18l-6-6 6-6"/>',
+    next: '<path d="M9 18l6-6-6-6"/>',
     mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
     info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
     bug: '<rect x="7" y="8" width="10" height="12" rx="5"/><path d="M12 8V5M9 5.5 7.5 4M15 5.5 16.5 4M7 13H3M21 13h-4M7.5 18l-3 2M16.5 18l3 2M7.5 9.5l-3-2M16.5 9.5l3-2"/>',

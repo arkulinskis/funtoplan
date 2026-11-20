@@ -174,9 +174,35 @@ def member(mid):
 
 
 def active_members():
+    """Everyone with a seat, kid seats included, in join order (the order Take turns rotates in)."""
     s = S["st"]
     ms = [m for m in (s["members"] if s else []) if m["active"]]
     return sorted(ms, key=lambda m: m.get("joined") or "")
+
+
+def is_kid(m):
+    return bool(m and m.get("kid"))
+
+
+def grownups():
+    """Seats with an account. Only they approve, so "someone else" for an approval means another grown-up."""
+    return [m for m in active_members() if not is_kid(m)]
+
+
+def kids():
+    return [m for m in active_members() if is_kid(m)]
+
+
+KID_AVATARS = ["🦖", "🦄", "🐼", "🐸", "🐙", "🐯", "🚀", "⭐", "🐳", "🦉"]
+
+
+def fresh_look():
+    """An emoji and a magnet colour nobody on the board has yet, for a new kid seat."""
+    used_a = [m["avatar"] for m in active_members()]
+    used_c = [m["color"] for m in active_members()]
+    avatar = next((a for a in KID_AVATARS if a not in used_a), KID_AVATARS[0])
+    color = next((c for c in COLORS if c not in used_c), COLORS[2])
+    return avatar, color
 
 
 def item_by_id(iid):
@@ -221,15 +247,20 @@ def week_total():
 
 
 def needs_you():
+    """Approvals, my open tasks, events this week I haven't answered, and kids' jobs due today or earlier (kids have
+    no phone, so a grown-up ticks them off: "Leo did it")."""
     s = S["st"]
     if not s:
         return []
-    mine, many = s["me"], len(active_members()) > 1
+    mine, many = s["me"], len(grownups()) > 1
+    today = today_str()
     out = []
     for it in s["items"]:
         k, st_ = it["kind"], it["status"]
         if k == "task" and st_ == "review":
             hit = (not many) or it.get("completed_by") != mine
+        elif k == "task" and st_ in ("todo", "doing") and is_kid(member(it.get("assignee"))):
+            hit = bool(it.get("due_date")) and it["due_date"][:10] <= today
         elif k == "task" and st_ in ("todo", "doing"):
             hit = it.get("assignee") == mine
         elif k == "event" and eff(it) == "todo":
@@ -515,7 +546,10 @@ def item_act(action, iid, el=None, extra=None, detail=False):
     if not d:
         return None
     fx = d.get("fx") or {}
-    if fx.get("kind") in ("done", "approved"):
+    if fx.get("kind") == "done" and fx.get("who"):  # a kid seat's job, ticked off by a grown-up
+        pts = fx.get("points")
+        burst_at(el, ("+%d for %s" % (pts, fx["who"])) if pts else ("%s did it! ✓" % fx["who"]), pts)
+    elif fx.get("kind") in ("done", "approved"):
         pts = fx.get("points")
         burst_at(el, ("+%d brownie points" % pts) if pts else ("Approved ✓" if fx["kind"] == "approved" else "Done! ✓"), pts)
     elif fx.get("kind") == "review":
@@ -569,12 +603,111 @@ def open_detail(iid):
             nxt = (r[0], r[1])
 
 
-def open_editor(iid=None, kind=None):
+def open_editor(iid=None, kind=None, preset=None):
+    """The card editor. preset (new cards only) fills it in: {"due": "YYYY-MM-DD" (task due date and event day),
+    "assignee": member id, "recurrence": "weekly", "notes": ..., "hint": a line shown above the form}."""
     from .Dialogs.Editor import Editor
-    r = _sheet(Editor(item_id=iid, kind=kind))
+    r = _sheet(Editor(item_id=iid, kind=kind, preset=preset))
     if r and r.get("saved"):
         it = item_by_id(r["saved"])
         state.toast("Saved" if iid else ((it["key"] + " added to the board") if it else "Card added"))
+
+
+def open_kid_seat(kid_id=None):
+    """Add a kid seat (no phone, no account), or edit one."""
+    from .Dialogs.KidSeat import KidSeat
+    r = _sheet(KidSeat(kid_id=kid_id))
+    if r:
+        state.toast(r)
+
+
+def open_cal_link():
+    """The "Add to my phone calendar" sheet (Apple / Google / copy, Only my jobs, Reset)."""
+    from .Dialogs.CalLink import CalLink
+    _sheet(CalLink())
+
+
+# ------------------------------------------------------------------ the week (Pages/Week)
+def week_start(d):
+    """Monday of d's week (a JS Date at local midnight)."""
+    return jsdate(d.getFullYear(), d.getMonth(), d.getDate() - (d.getDay() + 6) % 7)
+
+
+def advance(d, rec):
+    """The next date of a repeating task: the same rule as the server's api._advance (JS Dates, local time)."""
+    if rec == "weekdays":
+        x = add_days(d, 1)
+        while x.getDay() in (0, 6):
+            x = add_days(x, 1)
+        return x
+    if rec in ("weekly", "biweekly"):
+        return add_days(d, 7 if rec == "weekly" else 14)
+    if rec == "monthly":
+        ny = d.getFullYear() + (1 if d.getMonth() == 11 else 0)
+        nm = (d.getMonth() + 1) % 12
+        last = jsdate(ny, nm + 1, 0).getDate()
+        return jsdate(ny, nm, min(d.getDate(), last))
+    return add_days(d, 1)
+
+
+def _next_turn(order, who):
+    if who in order:
+        return order[(order.index(who) + 1) % len(order)]
+    return order[0] if order else None
+
+
+def ghost_turns(until):
+    """The coming copies of every open repeating task up to the date `until` ("YYYY-MM-DD"), as the server will make
+    them: each one after the current card, rotated through active_members() in join order when it takes turns.
+    -> [{"it": the open card, "date": "YYYY-MM-DD", "who": member id or None}]"""
+    s = S["st"]
+    if not s:
+        return []
+    order = [m["id"] for m in active_members()]
+    today = today_str()
+    out = []
+    for it in s["items"]:
+        rec = it.get("recurrence") or "none"
+        if it["kind"] != "task" or it["status"] == "done" or rec == "none" or not it.get("due_date"):
+            continue
+        who = it.get("assignee")
+        nxt = advance(parse_ymd(it["due_date"]), rec)
+        while ymd(nxt) < today:  # finished late, the next copy jumps to today or later (api._spawn_next)
+            nxt = advance(nxt, rec)
+        n = 0
+        while ymd(nxt) <= until and n < 40:
+            n += 1
+            if it.get("rotate"):
+                who = _next_turn(order, who)
+            out.append({"it": it, "date": ymd(nxt), "who": who})
+            nxt = advance(nxt, rec)
+    return out
+
+
+# ------------------------------------------------------------------ fair share (Pages/Family)
+def load_share(days=30):
+    """Who carries the load over the last `days`: per active seat, cards they Planned (added; repeat copies don't
+    count), tasks they Did (done or waiting in Review) and cards they Checked (approved, or ticked off for a kid).
+    -> {"rows": [{"m", "planned", "did", "checked"}], "split": [(grown-up, planned)], "total": grown-ups' planned}"""
+    s = S["st"]
+    if not s:
+        return {"rows": [], "split": [], "total": 0}
+    rows = {m["id"]: {"m": m, "planned": 0, "did": 0, "checked": 0} for m in active_members()}
+    since = jsdate(now_ms() - days * 864e5).toISOString()[:19]
+    for it in s["items"]:
+        made = (it.get("created") or "")[:19]
+        if made >= since and (it.get("occurrence") or 1) == 1 and it.get("created_by") in rows:
+            rows[it["created_by"]]["planned"] += 1
+        when = (it.get("completed_at") or "")[:19]
+        if when < since:
+            continue
+        if it["kind"] == "task" and it["status"] in ("done", "review") and it.get("completed_by") in rows:
+            rows[it["completed_by"]]["did"] += 1
+        if it.get("approved_by") in rows:
+            rows[it["approved_by"]]["checked"] += 1
+    ordered = [rows[m["id"]] for m in active_members()]
+    split = [(row["m"], row["planned"]) for row in ordered if not is_kid(row["m"])]
+    return {"rows": ordered, "split": split, "total": sum(pair[1] for pair in split)}
 
 
 def new_card(kind=None):

@@ -1,0 +1,32 @@
+<anvil-form layout="Fun_To_Plan.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="page-head wk-head"><div class="sp"><h1 class="page-title">This week</h1><div class="page-sub" anvil:dom-node="range"></div></div>
+      <anvil-component type="Button" name="cal_button" prop:text="Add to my phone calendar" prop:role='["btn", "btn-sm", "ic-calendar", "wk-cal"]'></anvil-component></div>
+
+    <div class="wk-tools">
+      <div class="wk-nav" role="group" aria-label="Week">
+        <anvil-component type="Button" name="prev_button" prop:text="Previous week" prop:role='["icon-btn", "ic-back"]'></anvil-component>
+        <anvil-component type="Button" name="today_button" prop:text="This week" prop:role='["btn", "btn-sm"]'></anvil-component>
+        <anvil-component type="Button" name="next_button" prop:text="Next week" prop:role='["icon-btn", "ic-next"]'></anvil-component>
+      </div>
+      <div class="wk-people" role="group" aria-label="Whose jobs">
+        <anvil-component type="RepeatingPanel" name="people_panel" prop:item_template="Fun_To_Plan.Items.Choice" prop:role='["chip-row"]'></anvil-component>
+      </div>
+    </div>
+
+    <section class="wk-overdue" anvil:name="overdue_part">
+      <h2 class="wk-strip-title"><i class="ic ic-clock ic-sm"></i>Still open from before<span class="count" anvil:dom-node="overdue_count"></span></h2>
+      <anvil-component type="RepeatingPanel" name="overdue_panel" prop:item_template="Fun_To_Plan.Items.WeekEntry" prop:role='["wk-strip"]'></anvil-component>
+    </section>
+
+    <anvil-component type="RepeatingPanel" name="days_panel" prop:item_template="Fun_To_Plan.Items.WeekDay" prop:role='["wk-days"]'></anvil-component>
+
+    <section class="section">
+      <div class="section-head"><h2 class="section-title">Anytime</h2><span class="count" anvil:dom-node="anytime_count"></span><span class="sp"></span>
+        <span class="small muted b">open jobs with no due date</span></div>
+      <anvil-component type="RepeatingPanel" name="anytime_panel" prop:item_template="Fun_To_Plan.Items.WeekEntry" prop:role='["wk-strip"]'></anvil-component>
+      <div class="empty" anvil:name="anytime_empty"><span class="big">🗓️</span>Every open job has a day. Nice planning!</div>
+    </section>
+    <p class="center small muted b wk-foot" anvil:dom-node="foot"></p>
+  </anvil-block>
+</anvil-form>

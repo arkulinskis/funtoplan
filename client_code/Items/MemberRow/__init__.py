@@ -6,7 +6,7 @@ from ... import ftp, state
 
 class MemberRow(MemberRowTemplate):
     """A member on the Family page: avatar, name (you / owner), level, cards done this month, brownie points;
-    the board's owner can remove the others. item = member dict."""
+    kid seats say so and any grown-up can edit them; the board's owner can remove the others. item = member dict."""
 
     def __init__(self, **properties):
         super().__init__(**properties)
@@ -17,14 +17,26 @@ class MemberRow(MemberRowTemplate):
         ftp.text(self.dom_nodes["name"], x["name"])
         self.you.visible = bool(me and x["id"] == me["id"])
         self.owner.visible = x["role"] == "owner"
+        kid = ftp.is_kid(x)
+        self.kid_tag.visible = kid
         ftp.text(self.dom_nodes["level"], "Lv %d %s · %s done this month" % (lv["n"], lv["title"], ftp.plural(x["done_30"], "card")))
+        self.edit_button.visible = kid  # any grown-up can rename a kid seat; everyone else edits their own profile
+        self.edit_button.text = "Edit " + x["name"]
         ftp.text(self.dom_nodes["points"], x["points"])
         self.remove_button.visible = ftp.is_owner() and not self.you.visible
         self.remove_button.text = "Remove " + x["name"]
 
+    @handle("edit_button", "click")
+    def edit_button_click(self, **event_args):
+        ftp.open_kid_seat(self.item["id"])
+
     @handle("remove_button", "click")
     def remove_button_click(self, **event_args):
         m = self.item
-        if ftp.ask("Remove %s?" % m["name"], "%s will lose access to the board. Their open tasks become open to anyone." % m["name"], "Remove", True):
+        if ftp.is_kid(m):
+            text = "%s's kid seat goes. Their open tasks become open to anyone; finished cards stay." % m["name"]
+        else:
+            text = "%s will lose access to the board. Their open tasks become open to anyone." % m["name"]
+        if ftp.ask("Remove %s?" % m["name"], text, "Remove", True):
             if ftp.run("remove_member", {"member_id": m["id"]}):
                 state.toast(m["name"] + " was removed")

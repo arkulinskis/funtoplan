@@ -4,6 +4,7 @@
     <anvil-component type="Button" name="close_button" prop:text="Close" prop:role='["icon-btn", "ic-close"]'></anvil-component></div>
   <div class="sheet-body">
     <div class="form">
+      <div class="notice ed-hint" anvil:dom-node="hint"></div>
       <div class="seg dark" role="group" aria-label="Kind of card">
         <button type="button" data-k="kind" data-v="task" anvil:name="k_task" anvil:on-dom:click="self.set_click"><i class="ic ic-check ic-sm"></i>Task</button>
         <button type="button" data-k="kind" data-v="event" anvil:name="k_event" anvil:on-dom:click="self.set_click"><i class="ic ic-calendar ic-sm"></i>Event</button>

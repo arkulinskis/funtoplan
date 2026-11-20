@@ -57,7 +57,7 @@
     ok(true, 'create board -> Today with starter cards');
 
     // ---- member pages
-    for (const h of ['#home', '#board', '#board/bounty', '#chat', '#family']) {
+    for (const h of ['#home', '#board', '#board/bounty', '#week', '#chat', '#family']) {
       await page(h, () => $('.page-title, .anvil-role-page-title'));
     }
     ok($('.qr-frame svg') || true, 'family: invite QR (needs the internet for the QR library)');

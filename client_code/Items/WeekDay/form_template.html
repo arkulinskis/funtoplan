@@ -1,0 +1,10 @@
+<section class="wk-day">
+  <div class="wk-day-head">
+    <h2 class="wk-h"><button type="button" class="wk-toggle" anvil:dom-node="toggle"><span class="wk-dow" anvil:dom-node="dow"></span><span class="wk-num" anvil:dom-node="num"></span><span class="wk-sum" anvil:dom-node="summary"></span><i class="ic ic-chevron wk-chev" aria-hidden="true"></i></button></h2>
+    <anvil-component type="Button" name="add_button" prop:text="Add" prop:role='["icon-btn", "flat", "ic-plus", "wk-add"]'></anvil-component>
+  </div>
+  <div class="wk-day-body" anvil:dom-node="body">
+    <anvil-component type="RepeatingPanel" name="entry_panel" prop:item_template="Fun_To_Plan.Items.WeekEntry" prop:role='["wk-list"]'></anvil-component>
+    <div class="wk-free" anvil:name="free">Free</div>
+  </div>
+</section>

@@ -9,13 +9,14 @@ CTAS = {
     "ack": ("I'm in", ["btn", "btn-sm", "ic-thumb"]),
     "complete": ("Done", ["btn", "btn-sm", "ic-check"]),
     "claim": ("Claim", ["btn", "btn-sm", "btn-blue", "ic-hand"]),
+    "kid": ("Did it", ["btn", "btn-sm", "btn-dark", "kid-did"]),  # "🦖 Leo did it": a grown-up ticks off a kid's job
 }
 
 
 class Card(CardTemplate):
     """One card on the fridge: a sticky note (yellow task, blue event, pink want, mint when done) held by a magnet.
-    Tapping it opens the card's sheet. item = {"it": card dict, "cta": None | "approve" | "ack" | "complete" | "claim",
-    "status": show the status pill}."""
+    Tapping it opens the card's sheet. item = {"it": card dict, "cta": None | "approve" | "ack" | "complete" | "claim"
+    | "kid" (the assignee is a kid seat: "🦖 Leo did it"), "status": show the status pill}."""
 
     def __init__(self, **properties):
         super().__init__(**properties)
@@ -45,6 +46,8 @@ class Card(CardTemplate):
         self.cta_box.visible = bool(cta)
         if cta:
             self.cta.text, self.cta.role = CTAS[cta]
+            if cta == "kid" and who:
+                self.cta.text = "%s %s did it" % (who["avatar"], who["name"])
         whonode = self.dom_nodes["who"]
         whonode.style.display = "" if (who and not cta) else "none"
         if who and not cta:
@@ -88,4 +91,7 @@ class Card(CardTemplate):
     @handle("cta", "click")
     def cta_click(self, **event_args):
         it, cta = self.item["it"], self.item["cta"]
-        ftp.item_act(cta, it["id"], self.cta)
+        if cta == "kid":
+            ftp.item_act("complete", it["id"], self.cta, {"for_member": it.get("assignee")})
+        else:
+            ftp.item_act(cta, it["id"], self.cta)

@@ -6,7 +6,7 @@ from ... import ftp, state
 
 class ProfilePicker(ProfilePickerTemplate):
     """How the family sees you: name, emoji avatar, magnet colour. Used by the start page and the profile sheet.
-    set_profile(name, avatar, color) fills it; value() -> {"display_name", "avatar", "color"} for the server."""
+    set_profile(name, avatar, color) fills it; set_labels(label, placeholder) renames the name field; value() -> {"display_name", "avatar", "color"} for the server."""
 
     def __init__(self, **properties):
         super().__init__(**properties)
@@ -22,6 +22,11 @@ class ProfilePicker(ProfilePickerTemplate):
         self._avatar = avatar or ftp.AVATARS[0]
         self._color = color or ftp.COLORS[0]
         self._draw()
+
+    def set_labels(self, name_label, placeholder):
+        """Other words for the name field (a kid seat: "Name or nickname")."""
+        self.dom_nodes["name_label"].textContent = name_label
+        self.name_box.placeholder = placeholder
 
     def value(self):
         return {"display_name": (self.name_box.text or "").strip(), "avatar": self._avatar, "color": self._color}

@@ -3,12 +3,14 @@ from anvil import *
 from ._anvil_designer import DetailTemplate
 from ... import ftp, state
 
-ACTIONS = ["claim", "start", "unstart", "reject", "reopen", "complete", "approve"]
+ACTIONS = ["claim", "start", "unstart", "reject", "reopen", "complete", "approve", "kid"]
 
 
 class Detail(DetailTemplate):
     """A card's sheet: title, notes (links + FAM-12), badges, who / when, "seen by / coming / wanted by" with the
     acknowledge button, the actions its state allows, and comments (item_detail). Stays live while the board syncs.
+    Kid seats (no phone): a kid's task gets "🦖 Leo did it" as its main button (plus a smaller "I did it"); an open
+    task gets "Or a kid did it" chips. Both send complete with for_member = the kid, who gets the points.
     Closes with None, ("edit", id), ("open", other id) for a FAM-12 link, or ("reject", id) for Send back."""
 
     def __init__(self, item_id=None, **properties):
@@ -19,6 +21,7 @@ class Detail(DetailTemplate):
         state.set_control_attr(self.comment_box, "aria-label", "Add a comment")
         state.set_control_attr(self.comment_box, "autocomplete", "off")
         self.comment_panel.add_event_handler("x-open", self._open_other)
+        self.kid_panel.add_event_handler("x-pick", self._kid_pick)
         self._draw()
 
     @handle("", "show")
@@ -151,6 +154,7 @@ class Detail(DetailTemplate):
             self._person(d["a_done"], d["v_done"], it["completed_by"])
             ftp.text(d["done_ago"], ftp.ago(it.get("completed_at")))
         self.r_appr.visible = bool(it.get("approved_by"))
+        ftp.text(d["k_appr"], "Checked" if ftp.is_kid(ftp.member(it.get("completed_by"))) else "Approved")
         if it.get("approved_by"):
             self._person(d["a_appr"], d["v_appr"], it["approved_by"])
 
@@ -159,13 +163,16 @@ class Detail(DetailTemplate):
         kind, s = it["kind"], it["status"]
         texts = {"start": "Start", "unstart": "Back to to-do", "complete": "Mark done", "reopen": "Reopen", "approve": "Approve"}
         waiting = False
+        kid = ftp.member(it.get("assignee")) if kind == "task" else None
+        kid = kid if ftp.is_kid(kid) and kid["active"] else None
+        open_task = kind == "task" and s in ("todo", "doing")
         if kind == "task":
             if s == "todo":
                 show |= {"start", "complete"} | (set() if it.get("assignee") else {"claim"})
             elif s == "doing":
                 show |= {"unstart", "complete"}
             elif s == "review":
-                if it.get("completed_by") != mine or len(ftp.active_members()) < 2:
+                if it.get("completed_by") != mine or len(ftp.grownups()) < 2:
                     show |= {"reject", "approve"}
                     if it["points"]:
                         texts["approve"] = "Approve · pay %d" % it["points"]
@@ -175,6 +182,10 @@ class Detail(DetailTemplate):
                     texts["reopen"] = "Withdraw"
             elif s == "done":
                 show.add("reopen")
+            if open_task and kid:  # kids have no phone: a grown-up ticks it off for them
+                show.add("kid")
+                texts["kid"] = "%s %s did it" % (kid["avatar"], kid["name"]) + ((" · +%d" % it["points"]) if it["points"] else "")
+                texts["complete"] = "I did it"
         elif kind == "want":
             texts.update(start="On it", unstart="Not yet", complete="Got it!", reopen="Want it again")
             if s == "todo":
@@ -188,8 +199,14 @@ class Detail(DetailTemplate):
             btn.visible = a in show
             if a in texts:
                 btn.text = texts[a]
-        self.a_complete.role = ["btn", "btn-dark", "ic-starf" if kind == "want" else "ic-check"]
+        if open_task and kid:
+            self.a_complete.role = ["btn", "ic-check"]
+        else:
+            self.a_complete.role = ["btn", "btn-dark", "ic-starf" if kind == "want" else "ic-check"]
         self.waiting.visible = waiting
+        kids = ftp.kids() if (open_task and not it.get("assignee")) else []
+        self.kid_box.visible = bool(kids)
+        self.kid_panel.items = [{"key": k["id"], "kind": "chip", "m": k, "label": k["name"] + " did it"} for k in kids]
 
     # ---- actions
     def _act(self, action, btn, extra=None):
@@ -222,6 +239,15 @@ class Detail(DetailTemplate):
     @handle("a_reopen", "click")
     def a_reopen_click(self, **event_args):
         self._act("reopen", self.a_reopen)
+
+    @handle("a_kid", "click")
+    def a_kid_click(self, **event_args):
+        it = ftp.item_by_id(self._id)
+        if it and it.get("assignee"):
+            self._act("complete", self.a_kid, {"for_member": it["assignee"]})
+
+    def _kid_pick(self, key, **event_args):
+        self._act("complete", self.kid_box, {"for_member": key})
 
     @handle("a_reject", "click")
     def a_reject_click(self, **event_args):

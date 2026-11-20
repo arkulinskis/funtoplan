@@ -48,9 +48,7 @@ class Home(HomeTemplate):
 
         needs = ftp.needs_you()
         ftp.text(d["needs_count"], len(needs) or "")
-        self.needs_panel.items = [{"it": it, "status": it["status"] == "review",
-                                   "cta": "approve" if it["status"] == "review" else ("ack" if it["kind"] == "event" else "complete")}
-                                  for it in needs[:8]]
+        self.needs_panel.items = [{"it": it, "status": it["status"] == "review", "cta": self._cta(it)} for it in needs[:8]]
         self.needs_empty.visible = not needs
         bounties = ftp.sort_open([it for it in s["items"] if it["kind"] == "task" and it["status"] == "todo"
                                   and not it.get("assignee") and it["points"] > 0])
@@ -65,6 +63,13 @@ class Home(HomeTemplate):
         recent = ftp.sort_done([it for it in s["items"] if it["kind"] != "event" and it["status"] == "done"])[:4]
         self.recent_part.visible = bool(recent)
         self.recent_panel.items = recent
+
+    def _cta(self, it):
+        if it["status"] == "review":
+            return "approve"
+        if it["kind"] == "event":
+            return "ack"
+        return "kid" if ftp.is_kid(ftp.member(it.get("assignee"))) else "complete"
 
     @handle("theme_button", "click")
     def theme_button_click(self, **event_args):
